@@ -16,6 +16,8 @@
 		B9D82DA524144C3D006558F2 /* StandingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DA424144C3D006558F2 /* StandingsViewController.swift */; };
 		B9D82DA724144DD4006558F2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D82DA624144DD4006558F2 /* Default-568h@2x.png */; };
 		B9D82DA92414523D006558F2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DA82414523D006558F2 /* UIImage+Extension.swift */; };
+		B9D82DAB241453E5006558F2 /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DAA241453E5006558F2 /* TeamCell.swift */; };
+		B9D82DAD24145481006558F2 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DAC24145481006558F2 /* Bundle+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		B9D82DA424144C3D006558F2 /* StandingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsViewController.swift; sourceTree = "<group>"; };
 		B9D82DA624144DD4006558F2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B9D82DA82414523D006558F2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		B9D82DAA241453E5006558F2 /* TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
+		B9D82DAC24145481006558F2 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,11 +105,12 @@
 		B9D82D72241448BE006558F2 /* exefel */ = {
 			isa = PBXGroup;
 			children = (
+				B9D82DAE24145660006558F2 /* extensions */,
 				B9D82DA324144A4C006558F2 /* assets */,
 				B9D82D73241448BE006558F2 /* AppDelegate.swift */,
 				B9D82D77241448BE006558F2 /* ViewController.swift */,
 				B9D82DA424144C3D006558F2 /* StandingsViewController.swift */,
-				B9D82DA82414523D006558F2 /* UIImage+Extension.swift */,
+				B9D82DAA241453E5006558F2 /* TeamCell.swift */,
 				B9D82D81241448C4006558F2 /* Info.plist */,
 			);
 			path = exefel;
@@ -137,6 +142,15 @@
 				B9D82D7E241448C4006558F2 /* LaunchScreen.storyboard */,
 			);
 			path = assets;
+			sourceTree = "<group>";
+		};
+		B9D82DAE24145660006558F2 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B9D82DAC24145481006558F2 /* Bundle+Extension.swift */,
+				B9D82DA82414523D006558F2 /* UIImage+Extension.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,7 +285,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9D82D78241448BE006558F2 /* ViewController.swift in Sources */,
+				B9D82DAD24145481006558F2 /* Bundle+Extension.swift in Sources */,
 				B9D82D74241448BE006558F2 /* AppDelegate.swift in Sources */,
+				B9D82DAB241453E5006558F2 /* TeamCell.swift in Sources */,
 				B9D82DA524144C3D006558F2 /* StandingsViewController.swift in Sources */,
 				B9D82DA92414523D006558F2 /* UIImage+Extension.swift in Sources */,
 			);

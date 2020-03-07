@@ -17,6 +17,7 @@ class ViewController: UITableViewController {
   
   struct ModelSection {
     let title: String?
+    let footer: String?
     let items: [ModelItem]
   }
   
@@ -53,7 +54,7 @@ class ViewController: UITableViewController {
     super.viewDidLoad()
     
     title = model?.title
-    tableView.register(UITableViewCell.self, forCellReuseIdentifier: REUSE_IDENTIFIER)
+    tableView.register(TeamCell.self, forCellReuseIdentifier: REUSE_IDENTIFIER)
     themeify()
   }
   
@@ -83,6 +84,18 @@ class ViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return model?.sections[section].title
+  }
+  
+  override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    return model?.sections[section].footer
+  }
+  
+  override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+    guard let footer = view as? UITableViewHeaderFooterView else {
+      return
+    }
+        
+    footer.textLabel?.textAlignment = .center
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
