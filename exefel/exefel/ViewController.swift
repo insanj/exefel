@@ -13,6 +13,21 @@ class ViewController: UITableViewController {
   struct Model {
     let title: String?
     let sections: [ModelSection]
+    
+    init(title: String?, sections: [ModelSection]) {
+      self.title = title
+      self.sections = sections
+    }
+//
+//    init(title: String?, result: Scraper.Result?) {
+//      self.title = title
+//
+//      if let r = result {
+//        self.sections = result?.games.
+//      } else {
+//        self.sections = [ModelSection]()
+//      }
+//    }
   }
   
   struct ModelSection {
@@ -54,13 +69,25 @@ class ViewController: UITableViewController {
     super.viewDidLoad()
     
     title = model?.title
+    
     tableView.register(TeamCell.self, forCellReuseIdentifier: REUSE_IDENTIFIER)
+    
+    let refresh = UIRefreshControl()
+    refresh.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
+    reloadRefreshControl(refresh)
+    tableView.refreshControl = refresh
+    
+    reloadBackend()
     themeify()
   }
   
   func themeify() {
     // view.backgroundColor = UIColor.secondarySystemBackground
     tableView.reloadData()
+  }
+  
+  func reloadBackend() {
+    // no - op
   }
   
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -74,6 +101,26 @@ class ViewController: UITableViewController {
     }, completion: nil)
     
     super.viewWillTransition(to: size, with: coordinator)
+  }
+  
+  // MARK: - ux / actions
+  fileprivate var refreshControlShouldEnd = false
+  @objc func refreshControlValueChanged(_ refresh: UIRefreshControl) {
+    refreshControlShouldEnd = true
+  }
+  
+  override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    // super.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
+    
+    if let refresh = refreshControl, refreshControlShouldEnd {
+      reloadBackend()
+      refresh.endRefreshing()
+      reloadRefreshControl(refresh)
+    }
+  }
+  
+  func reloadRefreshControl(_ refresh: UIRefreshControl) {
+    refresh.attributedTitle = NSAttributedString(string: "Last Updated \(DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .short))", attributes: [.foregroundColor: UIColor.secondaryLabel, .font: UIFont.preferredFont(forTextStyle: .footnote)])
   }
   
   // MARK: - table view

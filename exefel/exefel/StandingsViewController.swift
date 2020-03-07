@@ -28,7 +28,7 @@ class StandingsViewController: ViewController {
       return [dragons, renegades, roughnecks, wildcats]
     }())
     
-    return ViewController.Model(title: "Standings", sections: [xflEast, xflWest])
+    return ViewController.Model(title: "Teams", sections: [xflEast, xflWest])
   }
   
   override init(model: ViewController.Model?=StandingsViewController.buildModel()) {
@@ -39,4 +39,12 @@ class StandingsViewController: ViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func reloadBackend() {
+    
+    let scraper = Scraper()
+    scraper.get() { result in
+      print(result)
+      // self.model = ViewController.Model(result: result)
+    }
+  }
 }
