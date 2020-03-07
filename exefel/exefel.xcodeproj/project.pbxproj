@@ -15,6 +15,7 @@
 		B9D82D96241448C5006558F2 /* exefelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D95241448C5006558F2 /* exefelUITests.swift */; };
 		B9D82DA524144C3D006558F2 /* StandingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DA424144C3D006558F2 /* StandingsViewController.swift */; };
 		B9D82DA724144DD4006558F2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D82DA624144DD4006558F2 /* Default-568h@2x.png */; };
+		B9D82DA92414523D006558F2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DA82414523D006558F2 /* UIImage+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		B9D82D97241448C5006558F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9D82DA424144C3D006558F2 /* StandingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsViewController.swift; sourceTree = "<group>"; };
 		B9D82DA624144DD4006558F2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B9D82DA82414523D006558F2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				B9D82D73241448BE006558F2 /* AppDelegate.swift */,
 				B9D82D77241448BE006558F2 /* ViewController.swift */,
 				B9D82DA424144C3D006558F2 /* StandingsViewController.swift */,
+				B9D82DA82414523D006558F2 /* UIImage+Extension.swift */,
 				B9D82D81241448C4006558F2 /* Info.plist */,
 			);
 			path = exefel;
@@ -270,6 +273,7 @@
 				B9D82D78241448BE006558F2 /* ViewController.swift in Sources */,
 				B9D82D74241448BE006558F2 /* AppDelegate.swift in Sources */,
 				B9D82DA524144C3D006558F2 /* StandingsViewController.swift in Sources */,
+				B9D82DA92414523D006558F2 /* UIImage+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
