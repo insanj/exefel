@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TeamsViewController.swift
 //  exefel
 //
 //  Created by julian on 3/7/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class TeamsViewController: UITableViewController {
   // MARK: - models
   struct Model {
     let title: String?
@@ -37,15 +37,16 @@ class ViewController: UITableViewController {
   }
   
   struct ModelItem {
-    let title: String?
-    let subtitle: String?
-    let image: UIImage?
+    //let title: String?
+    //let subtitle: String?
+    //let image: UIImage?
+    let cell: TeamCell.Model
     let indicator: UITableViewCell.AccessoryType
-    let action: ((ViewController) -> (Void))?
+    let action: ((TeamsViewController) -> (Void))?
   }
   
   // MARK: - properties
-  var model: ViewController.Model? {
+  var model: TeamsViewController.Model? {
     didSet {
       title = model?.title
       tableView.reloadData()
@@ -55,8 +56,8 @@ class ViewController: UITableViewController {
   private let REUSE_IDENTIFIER = "REUSE_IDENTIFIER"
 
   // MARK: - init
-  init(model: ViewController.Model?=nil) {
-    super.init(style: .insetGrouped)
+  init(model: TeamsViewController.Model?=nil) {
+    super.init(style: .grouped)
     self.model = model
   }
   
@@ -154,7 +155,7 @@ class ViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 62.0
+    return TeamCell.height
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -164,10 +165,16 @@ class ViewController: UITableViewController {
       return cell
     }
     
-    cell.textLabel?.text = item.title
-    cell.detailTextLabel?.text = item.subtitle
-    cell.imageView?.image = item.image
+//    cell.textLabel?.text = item.title
+//    cell.detailTextLabel?.text = item.subtitle
+//    cell.imageView?.image = item.image
     cell.accessoryType = item.indicator
+
+    guard let teamCell = cell as? TeamCell else {
+      return cell
+    }
+    
+    teamCell.model = item.cell
     return cell
   }
   

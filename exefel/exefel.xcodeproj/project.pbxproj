@@ -11,7 +11,7 @@
 		B92BA92224145B780021C1D0 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA92124145B780021C1D0 /* String+Extension.swift */; };
 		B92BA925241465040021C1D0 /* SheetsNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA924241465040021C1D0 /* SheetsNetworker.swift */; };
 		B9D82D74241448BE006558F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D73241448BE006558F2 /* AppDelegate.swift */; };
-		B9D82D78241448BE006558F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D77241448BE006558F2 /* ViewController.swift */; };
+		B9D82D78241448BE006558F2 /* TeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D77241448BE006558F2 /* TeamsViewController.swift */; };
 		B9D82D7D241448C4006558F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9D82D7C241448C4006558F2 /* Assets.xcassets */; };
 		B9D82D80241448C4006558F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9D82D7E241448C4006558F2 /* LaunchScreen.storyboard */; };
 		B9D82D8B241448C5006558F2 /* exefelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D8A241448C5006558F2 /* exefelTests.swift */; };
@@ -46,7 +46,7 @@
 		B92BA924241465040021C1D0 /* SheetsNetworker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetsNetworker.swift; sourceTree = "<group>"; };
 		B9D82D70241448BE006558F2 /* exefel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exefel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9D82D73241448BE006558F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B9D82D77241448BE006558F2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B9D82D77241448BE006558F2 /* TeamsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsViewController.swift; sourceTree = "<group>"; };
 		B9D82D7C241448C4006558F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9D82D7F241448C4006558F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9D82D81241448C4006558F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,6 +97,16 @@
 			path = backend;
 			sourceTree = "<group>";
 		};
+		B92BA9262414F1660021C1D0 /* teams */ = {
+			isa = PBXGroup;
+			children = (
+				B9D82D77241448BE006558F2 /* TeamsViewController.swift */,
+				B9D82DA424144C3D006558F2 /* StandingsViewController.swift */,
+				B9D82DAA241453E5006558F2 /* TeamCell.swift */,
+			);
+			path = teams;
+			sourceTree = "<group>";
+		};
 		B9D82D67241448BE006558F2 = {
 			isa = PBXGroup;
 			children = (
@@ -120,14 +130,12 @@
 		B9D82D72241448BE006558F2 /* exefel */ = {
 			isa = PBXGroup;
 			children = (
+				B9D82D81241448C4006558F2 /* Info.plist */,
 				B9D82DA324144A4C006558F2 /* assets */,
 				B9D82DAE24145660006558F2 /* extensions */,
 				B92BA923241464C90021C1D0 /* backend */,
 				B9D82D73241448BE006558F2 /* AppDelegate.swift */,
-				B9D82D77241448BE006558F2 /* ViewController.swift */,
-				B9D82DA424144C3D006558F2 /* StandingsViewController.swift */,
-				B9D82DAA241453E5006558F2 /* TeamCell.swift */,
-				B9D82D81241448C4006558F2 /* Info.plist */,
+				B92BA9262414F1660021C1D0 /* teams */,
 			);
 			path = exefel;
 			sourceTree = "<group>";
@@ -303,7 +311,7 @@
 			files = (
 				B92BA92224145B780021C1D0 /* String+Extension.swift in Sources */,
 				B92BA92024145A050021C1D0 /* Scraper.swift in Sources */,
-				B9D82D78241448BE006558F2 /* ViewController.swift in Sources */,
+				B9D82D78241448BE006558F2 /* TeamsViewController.swift in Sources */,
 				B92BA925241465040021C1D0 /* SheetsNetworker.swift in Sources */,
 				B9D82DAD24145481006558F2 /* Bundle+Extension.swift in Sources */,
 				B9D82D74241448BE006558F2 /* AppDelegate.swift in Sources */,
