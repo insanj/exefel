@@ -28,7 +28,7 @@ class TeamCell: UITableViewCell {
   
   // MARK: colors
   static var backgroundColor: UIColor {
-    return UIColor.systemBackground
+    return UIColor.secondarySystemBackground
   }
   
   static var topColor: UIColor {
@@ -121,7 +121,7 @@ class TeamCell: UITableViewCell {
     containerView.addSubview(leftImageView)
     leftImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
     leftImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10.0).isActive = true
-    leftImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10.0).isActive = true
+    leftImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
     leftImageView.widthAnchor.constraint(equalTo: leftImageView.heightAnchor).isActive = true
 
     containerView.addSubview(middleLabel)
