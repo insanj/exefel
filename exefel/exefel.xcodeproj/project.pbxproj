@@ -10,6 +10,7 @@
 		B92BA92024145A050021C1D0 /* Scraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA91F24145A050021C1D0 /* Scraper.swift */; };
 		B92BA92224145B780021C1D0 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA92124145B780021C1D0 /* String+Extension.swift */; };
 		B92BA925241465040021C1D0 /* SheetsNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA924241465040021C1D0 /* SheetsNetworker.swift */; };
+		B92BA9282414F8D70021C1D0 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA9272414F8D70021C1D0 /* NavigationController.swift */; };
 		B9D82D74241448BE006558F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D73241448BE006558F2 /* AppDelegate.swift */; };
 		B9D82D78241448BE006558F2 /* TeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D77241448BE006558F2 /* TeamsViewController.swift */; };
 		B9D82D7D241448C4006558F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9D82D7C241448C4006558F2 /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 		B92BA91F24145A050021C1D0 /* Scraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scraper.swift; sourceTree = "<group>"; };
 		B92BA92124145B780021C1D0 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		B92BA924241465040021C1D0 /* SheetsNetworker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetsNetworker.swift; sourceTree = "<group>"; };
+		B92BA9272414F8D70021C1D0 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		B9D82D70241448BE006558F2 /* exefel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exefel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9D82D73241448BE006558F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9D82D77241448BE006558F2 /* TeamsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsViewController.swift; sourceTree = "<group>"; };
@@ -100,8 +102,8 @@
 		B92BA9262414F1660021C1D0 /* teams */ = {
 			isa = PBXGroup;
 			children = (
-				B9D82D77241448BE006558F2 /* TeamsViewController.swift */,
 				B9D82DA424144C3D006558F2 /* StandingsViewController.swift */,
+				B9D82D77241448BE006558F2 /* TeamsViewController.swift */,
 				B9D82DAA241453E5006558F2 /* TeamCell.swift */,
 			);
 			path = teams;
@@ -135,6 +137,7 @@
 				B9D82DAE24145660006558F2 /* extensions */,
 				B92BA923241464C90021C1D0 /* backend */,
 				B9D82D73241448BE006558F2 /* AppDelegate.swift */,
+				B92BA9272414F8D70021C1D0 /* NavigationController.swift */,
 				B92BA9262414F1660021C1D0 /* teams */,
 			);
 			path = exefel;
@@ -316,6 +319,7 @@
 				B9D82DAD24145481006558F2 /* Bundle+Extension.swift in Sources */,
 				B9D82D74241448BE006558F2 /* AppDelegate.swift in Sources */,
 				B9D82DAB241453E5006558F2 /* TeamCell.swift in Sources */,
+				B92BA9282414F8D70021C1D0 /* NavigationController.swift in Sources */,
 				B9D82DA524144C3D006558F2 /* StandingsViewController.swift in Sources */,
 				B9D82DA92414523D006558F2 /* UIImage+Extension.swift in Sources */,
 			);

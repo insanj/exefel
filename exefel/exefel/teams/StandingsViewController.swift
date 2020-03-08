@@ -20,10 +20,11 @@ class StandingsViewController: TeamsViewController {
       return [battlehawks, defenders, guardians, vipers]
     }())
     
-    let xflWest = TeamsViewController.ModelSection(title: "XFL West", footer: "v\(Bundle.main.version ?? "??")-\(Bundle.main.build ?? "??") from \(DateFormatter.localizedString(from: Bundle.main.buildDate ?? Date(), dateStyle: .short, timeStyle: .short))", items: {
+    // "v\(Bundle.main.version ?? "??")-\(Bundle.main.build ?? "??") from \(DateFormatter.localizedString(from: Bundle.main.buildDate ?? Date(), dateStyle: .short, timeStyle: .short))"
+    let xflWest = TeamsViewController.ModelSection(title: "XFL West", footer: nil, items: {
       let roughnecks = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "HOU")?.resize(newWidth: 50.0), top: "Houston", middle: "Roughnecks", bottom: "5-0, 1st XFL West"), indicator: .disclosureIndicator, action: nil)
       let renegades = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "DAL")?.resize(newWidth: 50.0), top: "Dallas", middle: "Renegades", bottom: "2-3, 2nd XFL West"), indicator: .disclosureIndicator, action: nil)
-      let wildcats = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "LA")?.resize(newWidth: 50.0), top: "Los Angeles", middle: "Renegades", bottom: "1-3, 3rd XFL West"), indicator: .disclosureIndicator, action: nil)
+      let wildcats = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "LA")?.resize(newWidth: 50.0), top: "Los Angeles", middle: "Wildcats", bottom: "1-3, 3rd XFL West"), indicator: .disclosureIndicator, action: nil)
       let dragons = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "SEA")?.resize(newWidth: 50.0), top: "Seattle", middle: "Dragons", bottom: "1-4, 4th XFL West"), indicator: .disclosureIndicator, action: nil)
       return [dragons, renegades, roughnecks, wildcats]
     }())
@@ -49,7 +50,7 @@ class StandingsViewController: TeamsViewController {
     search.obscuresBackgroundDuringPresentation = false
     search.hidesNavigationBarDuringPresentation = false
     // search.searchResultsUpdater = self
-    search.searchBar.placeholder = "Search exefel, just now"
+    search.searchBar.placeholder = "Search 🏈 exefel, just now"
     search.searchBar.scopeButtonTitles = ["Divisions", "Standings", "Schedule"]
     search.searchBar.selectedScopeButtonIndex = 0
     search.searchBar.showsScopeBar = true

@@ -57,7 +57,7 @@ class TeamsViewController: UITableViewController {
 
   // MARK: - init
   init(model: TeamsViewController.Model?=nil) {
-    super.init(style: .grouped)
+    super.init(style: .plain)
     self.model = model
   }
   
