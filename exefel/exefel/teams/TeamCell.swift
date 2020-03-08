@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol Searchable {
+  func matches(text: String) -> Bool
+}
+
 class TeamCell: UITableViewCell {
   // MARK: - static vars
   static let height: CGFloat = 92.0
@@ -157,5 +161,21 @@ class TeamCell: UITableViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     model = nil
+  }
+}
+
+extension TeamCell.Model: Searchable {
+  func matches(text: String) -> Bool {
+    let bodyOfTextToSearch = "\(top ?? "") \(middle ?? "") \(bottom ?? "")"
+    let lowercasedBodyOfText = bodyOfTextToSearch.lowercased()
+    let lowercasedSearchText = text.lowercased()
+    let lowercasedSearchTextComponent = lowercasedSearchText.components(separatedBy: " ")
+    for component in lowercasedSearchTextComponent {
+      if lowercasedBodyOfText.contains(component) {
+        return true
+      }
+    }
+     
+    return false
   }
 }

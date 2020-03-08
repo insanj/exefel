@@ -197,3 +197,19 @@ class GameCell: UITableViewCell {
     model = nil
   }
 }
+
+extension GameCell.Model: Searchable {
+  func matches(text: String) -> Bool {
+    let bodyOfTextToSearch = "\(leftTop?.title ?? "") \(leftBottom?.title ?? "") \(rightTop ?? "" ) \(rightBottom ?? "")"
+    let lowercasedBodyOfText = bodyOfTextToSearch.lowercased()
+    let lowercasedSearchText = text.lowercased()
+    let lowercasedSearchTextComponent = lowercasedSearchText.components(separatedBy: " ")
+    for component in lowercasedSearchTextComponent {
+      if lowercasedBodyOfText.contains(component) {
+        return true
+      }
+    }
+     
+    return false
+  }
+}

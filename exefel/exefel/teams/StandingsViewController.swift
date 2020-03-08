@@ -272,6 +272,8 @@ class StandingsViewController: TeamsViewController {
     return StandingsViewController.GamesModel(sections: [weekOne, weekTwo, weekThree, weekFour, weekFive])//, weekSix, weekSeven, weekEight, weekNine, weekTen])
   }
   
+  internal var backingModel = StandingsViewController.buildDivisionsModel()
+  internal var backingGamesModel = StandingsViewController.buildScheduleModel()
   internal var gamesModel: GamesModel? {
     didSet {
       tableView.reloadData()
@@ -280,8 +282,8 @@ class StandingsViewController: TeamsViewController {
 
   fileprivate var searchController: UISearchController?
   
-  override init(model: TeamsViewController.Model?=StandingsViewController.buildDivisionsModel()) {
-    super.init(model: model)
+  init() {
+    super.init(model: backingModel)
   }
   
   required init?(coder: NSCoder) {
@@ -394,21 +396,56 @@ class StandingsViewController: TeamsViewController {
 extension StandingsViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
     if selectedScope == 0 {
-      model = StandingsViewController.buildDivisionsModel()
+      backingModel = StandingsViewController.buildDivisionsModel()
+      model = backingModel
     }
     
     else if selectedScope == 1 {
-      model = StandingsViewController.buildStandingsModel()
+      backingModel = StandingsViewController.buildStandingsModel()
+      model = backingModel
     }
     
     else if selectedScope == 2 {
-      gamesModel = StandingsViewController.buildScheduleModel()
+      backingGamesModel = StandingsViewController.buildScheduleModel()
+      gamesModel = backingGamesModel
     }
   }
 }
 
 extension StandingsViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
+    let selectedScope = searchController.searchBar.selectedScopeButtonIndex
+    guard let searchText = searchController.searchBar.text, searchText.count > 0 else {
+      if selectedScope == 2 {
+        gamesModel = backingGamesModel
+      } else {
+        model = backingModel
+      }
+      return
+    }
+        
+    if selectedScope == 0 {
+      model = TeamsViewController.Model(title: backingModel.title, sections: backingModel.sections.compactMap({ (section) -> TeamsViewController.ModelSection? in
+        return TeamsViewController.ModelSection(title: section.title, footer: section.footer, items: section.items.filter({ (item) -> Bool in
+          return item.cell.matches(text: searchText)
+        }))
+      }))
+    }
     
+    else if selectedScope == 1 {
+      model = TeamsViewController.Model(title: backingModel.title, sections: backingModel.sections.compactMap({ (section) -> TeamsViewController.ModelSection? in
+        return TeamsViewController.ModelSection(title: section.title, footer: section.footer, items: section.items.filter({ (item) -> Bool in
+          return item.cell.matches(text: searchText)
+        }))
+      }))
+    }
+    
+    else if selectedScope == 2 {
+      gamesModel = StandingsViewController.GamesModel(sections: backingGamesModel.sections.compactMap({ (section) -> StandingsViewController.GamesSection? in
+        return StandingsViewController.GamesSection(title: section.title, cells: section.cells.filter({ (item) -> Bool in
+          return item.matches(text: searchText)
+        }))
+      }))
+    }
   }
 }
