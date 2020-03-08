@@ -301,18 +301,20 @@ class StandingsViewController: TeamsViewController {
     search.obscuresBackgroundDuringPresentation = false
     search.hidesNavigationBarDuringPresentation = false
     search.searchResultsUpdater = self
+    // search.delegate = self
     search.searchBar.placeholder = "Search 🏈 exefel, just now"
     search.searchBar.scopeButtonTitles = ["Divisions", "Standings", "Schedule"]
     search.searchBar.selectedScopeButtonIndex = 0
     search.searchBar.showsScopeBar = true
     search.searchBar.scopeBarBackgroundImage = UIImage.imageWithColor(UIColor.clear)
     search.searchBar.delegate = self
+    search.searchBar.showsCancelButton = false
     
-    self.extendedLayoutIncludesOpaqueBars = true
-    
-    // definesPresentationContext = true
+    extendedLayoutIncludesOpaqueBars = true
+    definesPresentationContext = true
     navigationItem.titleView = search.searchBar
     search.searchBar.sizeToFit()
+    
     searchController = search
   }
   
@@ -408,6 +410,26 @@ extension StandingsViewController: UISearchBarDelegate {
     else if selectedScope == 2 {
       backingGamesModel = StandingsViewController.buildScheduleModel()
       gamesModel = backingGamesModel
+    }
+  }
+  
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    searchController?.searchBar.setShowsCancelButton(true, animated: true)
+  }
+  
+  func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      guard let text = self.searchController?.searchBar.text, text.count > 0 else {
+        self.searchController?.searchBar.setShowsCancelButton(false, animated: true)
+        return
+      }
+    }
+  }
+  
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    guard searchBar.isFirstResponder else {
+      self.searchController?.searchBar.setShowsCancelButton(false, animated: true)
+      return
     }
   }
 }
