@@ -73,11 +73,11 @@ class TeamsViewController: UITableViewController {
     
     tableView.register(TeamCell.self, forCellReuseIdentifier: REUSE_IDENTIFIER)
     
-    let refresh = UIRefreshControl()
-    refresh.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
-    reloadRefreshControl(refresh)
-    tableView.refreshControl = refresh
-    
+//    let refresh = UIRefreshControl()
+//    refresh.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
+//    reloadRefreshControl(refresh)
+//    tableView.refreshControl = refresh
+//
     reloadBackend()
     themeify()
   }
@@ -105,25 +105,25 @@ class TeamsViewController: UITableViewController {
   }
   
   // MARK: - ux / actions
-  fileprivate var refreshControlShouldEnd = false
-  @objc func refreshControlValueChanged(_ refresh: UIRefreshControl) {
-    refreshControlShouldEnd = true
-  }
-  
-  override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-    // super.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
-    
-    if let refresh = refreshControl, refreshControlShouldEnd {
-      reloadBackend()
-      refresh.endRefreshing()
-      reloadRefreshControl(refresh)
-    }
-  }
-  
-  func reloadRefreshControl(_ refresh: UIRefreshControl) {
-    refresh.attributedTitle = NSAttributedString(string: "Last Updated \(DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .short))", attributes: [.foregroundColor: UIColor.secondaryLabel, .font: UIFont.preferredFont(forTextStyle: .footnote)])
-  }
-  
+//  fileprivate var refreshControlShouldEnd = false
+//  @objc func refreshControlValueChanged(_ refresh: UIRefreshControl) {
+//    refreshControlShouldEnd = true
+//  }
+//
+//  override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//    // super.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
+//
+//    if let refresh = refreshControl, refreshControlShouldEnd {
+//      reloadBackend()
+//      refresh.endRefreshing()
+//      reloadRefreshControl(refresh)
+//    }
+//  }
+//
+//  func reloadRefreshControl(_ refresh: UIRefreshControl) {
+//    refresh.attributedTitle = NSAttributedString(string: "Last Updated \(DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .short))", attributes: [.foregroundColor: UIColor.secondaryLabel, .font: UIFont.preferredFont(forTextStyle: .footnote)])
+//  }
+//
   // MARK: - table view
   // MARK: data source
   override func numberOfSections(in tableView: UITableView) -> Int {

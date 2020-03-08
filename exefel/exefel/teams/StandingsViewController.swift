@@ -20,7 +20,7 @@ class StandingsViewController: TeamsViewController {
       return [battlehawks, defenders, guardians, vipers]
     }())
     
-    let xflWest = TeamsViewController.ModelSection(title: "XFL West", footer: "Thanks for using exefel!\nv\(Bundle.main.version ?? "??")-\(Bundle.main.build ?? "??") from \(DateFormatter.localizedString(from: Bundle.main.buildDate ?? Date(), dateStyle: .short, timeStyle: .short))", items: {
+    let xflWest = TeamsViewController.ModelSection(title: "XFL West", footer: "v\(Bundle.main.version ?? "??")-\(Bundle.main.build ?? "??") from \(DateFormatter.localizedString(from: Bundle.main.buildDate ?? Date(), dateStyle: .short, timeStyle: .short))", items: {
       let roughnecks = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "HOU")?.resize(newWidth: 50.0), top: "Houston", middle: "Roughnecks", bottom: "5-0, 1st XFL West"), indicator: .disclosureIndicator, action: nil)
       let renegades = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "DAL")?.resize(newWidth: 50.0), top: "Dallas", middle: "Renegades", bottom: "2-3, 2nd XFL West"), indicator: .disclosureIndicator, action: nil)
       let wildcats = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "LA")?.resize(newWidth: 50.0), top: "Los Angeles", middle: "Renegades", bottom: "1-3, 3rd XFL West"), indicator: .disclosureIndicator, action: nil)
@@ -28,7 +28,7 @@ class StandingsViewController: TeamsViewController {
       return [dragons, renegades, roughnecks, wildcats]
     }())
     
-    return TeamsViewController.Model(title: "Teams", sections: [xflEast, xflWest])
+    return TeamsViewController.Model(title: nil, sections: [xflEast, xflWest])
   }
   
   override init(model: TeamsViewController.Model?=StandingsViewController.buildModel()) {
@@ -37,6 +37,31 @@ class StandingsViewController: TeamsViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    tableView.keyboardDismissMode = .onDrag
+    
+    // setup search bar
+    let search = UISearchController(searchResultsController: nil)
+    search.obscuresBackgroundDuringPresentation = false
+    search.hidesNavigationBarDuringPresentation = false
+    // search.searchResultsUpdater = self
+    search.searchBar.placeholder = "Search exefel, just now"
+    search.searchBar.scopeButtonTitles = ["Divisions", "Standings", "Schedule"]
+    search.searchBar.selectedScopeButtonIndex = 0
+    search.searchBar.showsScopeBar = true
+    
+    self.extendedLayoutIncludesOpaqueBars = true
+
+    //navigationItem.hidesSearchBarWhenScrolling = false
+    // navigationItem.searchController = search
+    // definesPresentationContext = true
+    search.searchBar.searchBarStyle = .minimal
+    navigationItem.titleView = search.searchBar
+    search.searchBar.sizeToFit()
   }
   
   override func reloadBackend() {

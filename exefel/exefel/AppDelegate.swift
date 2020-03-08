@@ -18,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     window = UIWindow(frame: UIScreen.main.bounds)
     let standingsViewController = StandingsViewController() // TODO recreate based on persistent stack?
-    window?.rootViewController = UINavigationController(rootViewController: standingsViewController)
+    let navigationController = UINavigationController(rootViewController: standingsViewController)
+    // navigationController.navigationBar.prefersLargeTitles = true
+    window?.rootViewController = navigationController
     window?.makeKeyAndVisible()
     
     return true
