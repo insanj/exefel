@@ -42,6 +42,7 @@ class StandingsViewController: TeamsViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    tableView.allowsSelection = false
     tableView.keyboardDismissMode = .onDrag
     tableView.register(GameCell.self, forCellReuseIdentifier: GameCell.reuseIdentifier)
     

@@ -91,6 +91,10 @@ class Game {
     return json[Key.homeTeamName] as? String
   }
   
+  var homeTeamMascot: String? {
+    return json[Key.homeTeamMascot] as? String
+  }
+  
   var homeTeamAbbr: String? {
     return json[Key.homeTeamAbbr] as? String
   }
@@ -107,11 +111,35 @@ class Game {
     return json[Key.awayTeamAbbr] as? String
   }
   
+  var awayTeamMascot: String? {
+    return json[Key.awayTeamMascot] as? String
+  }
+  
   var awayScore: Int? {
     return json[Key.awayScore] as? Int
   }
   
   var weekNumber: Int? {
     return json[Key.weekNumber] as? Int
+  }
+  
+  var resultHomeScore: Int? {
+    return json[Key.resultHomeScore] as? Int
+  }
+  
+  var resultAwayScore: Int? {
+    return json[Key.resultAwayScore] as? Int
+  }
+  
+  var awayTeamDisplayName: String? {
+    return json[Key.awayTeamDisplayName] as? String
+  }
+  
+  var homeTeamDisplayName: String? {
+    return json[Key.homeTeamDisplayName] as? String
+  }
+  
+  var isGameOver: Bool? {
+    return json[Key.isGameOver] as? Bool
   }
 }

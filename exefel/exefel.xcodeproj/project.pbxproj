@@ -54,6 +54,7 @@
 		B92BA92D241881CF0021C1D0 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		B92BA92F241882A10021C1D0 /* ResultBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultBuilder.swift; sourceTree = "<group>"; };
 		B92BA931241882EC0021C1D0 /* OfflineBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBuilder.swift; sourceTree = "<group>"; };
+		B932177D24188B9A005D32C2 /* exefel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = exefel.entitlements; sourceTree = "<group>"; };
 		B9D82D70241448BE006558F2 /* exefel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exefel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9D82D73241448BE006558F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9D82D77241448BE006558F2 /* TeamsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		B9D82D72241448BE006558F2 /* exefel */ = {
 			isa = PBXGroup;
 			children = (
+				B932177D24188B9A005D32C2 /* exefel.entitlements */,
 				B9D82D81241448C4006558F2 /* Info.plist */,
 				B9D82DA324144A4C006558F2 /* assets */,
 				B9D82DAE24145660006558F2 /* extensions */,
@@ -502,15 +504,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = exefel/exefel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 24X8MVUSCN;
 				INFOPLIST_FILE = exefel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.insanj.exefel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -520,15 +527,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = exefel/exefel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 24X8MVUSCN;
 				INFOPLIST_FILE = exefel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.insanj.exefel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
