@@ -39,7 +39,12 @@ class ResultBuilder: OfflineBuilder {
           return GameCell.ModelSide(image: imageForTeam(abbr: game.homeTeam.abbreviation), title: game.homeTeam.name)
         }(), rightTop: {
           guard game.timeGameStarts.timeIntervalSinceNow <= 0 else {
-            return DateFormatter.localizedString(from: game.timeGameStarts, dateStyle: .none, timeStyle: .short)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEE"
+            let dayOfWeek = dateFormatter.string(from: game.timeGameStarts)
+            dateFormatter.dateFormat = "ha"
+            let hourOfDay = dateFormatter.string(from: game.timeGameStarts)
+            return "\(dayOfWeek) \(hourOfDay.lowercased())"
           }
           
           return "\(game.awayTeam.score)-\(game.homeTeam.score)"

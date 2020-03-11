@@ -52,7 +52,7 @@ class StandingsViewController: TeamsViewController {
     search.hidesNavigationBarDuringPresentation = false
     search.searchResultsUpdater = self
     // search.delegate = self
-    search.searchBar.placeholder = "Search 🏈 exefel, just now"
+    search.searchBar.placeholder = "Updating 🏈 exefel..."
     search.searchBar.scopeButtonTitles = ["Divisions", "Standings", "Schedule"]
     search.searchBar.selectedScopeButtonIndex = 0
     search.searchBar.showsScopeBar = true
@@ -75,10 +75,13 @@ class StandingsViewController: TeamsViewController {
         return
       }
       
+
       let resultBuilder = ResultBuilder(result)
       self.builder = resultBuilder
       
       if let searchBar = self.searchController?.searchBar {
+        searchBar.placeholder = "Search 🏈 exefel, pull to refresh"
+
         self.searchBar(searchBar, selectedScopeButtonIndexDidChange: searchBar.selectedScopeButtonIndex)
       }
     }
@@ -150,6 +153,23 @@ class StandingsViewController: TeamsViewController {
     }
     
     tableView.deselectRow(at: indexPath, animated: true)
+  }
+  
+  fileprivate var loadWhenDoneDragging = false
+  override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if loadWhenDoneDragging == false, let search = self.searchController, search.searchBar.placeholder != "Updating 🏈 exefel...", scrollView.contentOffset.y < -(view.safeAreaInsets.top + 100.0) {
+      loadWhenDoneDragging = true
+      self.searchController?.searchBar.placeholder = "Release to refresh 🏈 exefel!"
+    }
+  }
+  
+  override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    if loadWhenDoneDragging {
+      self.searchController?.searchBar.placeholder = "Updating 🏈 exefel..."
+      loadWhenDoneDragging = false
+      reloadBackend()
+    }
+
   }
 }
 
