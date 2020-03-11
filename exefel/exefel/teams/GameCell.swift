@@ -41,10 +41,23 @@ class GameCell: UITableViewCell {
   
   // MARK: - Model
   struct Model {
+    let underlying: Scraper.ResultGame?
     let leftTop: ModelSide?
     let leftBottom: ModelSide?
     let rightTop: String?
     let rightBottom: String?
+    
+    init(underlying: Scraper.ResultGame?=nil,
+         leftTop: ModelSide?=nil,
+         leftBottom: ModelSide?=nil,
+         rightTop: String?=nil,
+         rightBottom: String?=nil) {
+      self.underlying = underlying
+      self.leftTop = leftTop
+      self.leftBottom = leftBottom
+      self.rightTop = rightTop
+      self.rightBottom = rightBottom
+    }
   }
   
   struct ModelSide {

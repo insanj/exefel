@@ -16,10 +16,52 @@ class Scraper: NSObject {
   }
   
   struct ResultGame {
+    let underlying: Game
     let homeTeam: ResultGameTeam
     let awayTeam: ResultGameTeam
     let timeGameStarts: Date
-    let timeGameEnded: Date?
+    let televisionNetwork: String
+    let weekNumber: Int
+    
+    init?(_ game: Game) {
+      self.underlying = game
+      
+      guard let homeTeamName = game.homeTeamName,
+            let homeTeamAbbr = game.homeTeamAbbr,
+            let homeScore = game.homeScore else {
+        return nil
+      }
+      
+      self.homeTeam = ResultGameTeam(name: homeTeamName, abbreviation: homeTeamAbbr, score: homeScore)
+      
+      guard let awayTeamName = game.awayTeamName,
+            let awayTeamAbbr = game.awayTeamAbbr,
+            let awayScore = game.awayScore else {
+        return nil
+      }
+      
+      self.awayTeam = ResultGameTeam(name: awayTeamName, abbreviation: awayTeamAbbr, score: awayScore)
+      
+      
+      let formatter = DateFormatter()
+      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" //yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+      formatter.timeZone = TimeZone(secondsFromGMT: 0)
+      
+      guard let gameStartTimestampUTC = game.gameStartTimestampUTC, let date = formatter.date(from: gameStartTimestampUTC) else {
+        return nil
+      }
+      
+      self.timeGameStarts = date
+      
+      let televisionNetwork = game.network ?? "??"
+      self.televisionNetwork = televisionNetwork
+      
+      guard let weekNumber = game.weekNumber else {
+        return nil
+      }
+      
+      self.weekNumber = weekNumber
+    }
   }
   
   struct ResultGameTeam {
@@ -66,7 +108,11 @@ class Scraper: NSObject {
     userContentController.addUserScript(script)
     userContentController.add(self, name: "didGetHTML")
 
+    let prefs = WKPreferences()
+    prefs.javaScriptEnabled = true // allows for the js variable "games" to become accessible
+    
     let config = WKWebViewConfiguration()
+    config.preferences = prefs
     config.userContentController = userContentController
     
     awaitingCompletion = completion
@@ -82,7 +128,7 @@ extension Scraper: WKScriptMessageHandler {
       return
     }
     
-    guard message.name == "didGetHTML", let html = message.body as? String else {
+    guard message.name == "didGetHTML" else { //, let html = message.body as? String else {
       return
     }
     
@@ -93,33 +139,50 @@ extension Scraper: WKScriptMessageHandler {
     checkForTeamsThenComplete(webView, url: url, completion: completion)
   }
   
-  func checkForTeamsThenComplete(_ webView: WKWebView, url: URL, completion: @escaping ((Scraper.Result?) -> ())) {
-    webView.evaluateJavaScript("document.body.innerHTML", completionHandler: { (value, error) in
-      guard let string = value as? String else {
-        return
-      }
-      
-      guard string.contains("var games") else {
+  func checkForTeamsThenComplete(_ webView: WKWebView, url: URL, attempts: Int=100, completion: @escaping ((Scraper.Result?) -> ())) {
+    guard attempts > 0 else {
+      return
+    }
+    
+    webView.evaluateJavaScript("games", completionHandler: { (value, error) in
+      guard let games = value as? [[String: Any]] else {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-          self.checkForTeamsThenComplete(webView, url: url, completion: completion)
+          self.checkForTeamsThenComplete(webView, url: url, attempts: attempts-1, completion: completion)
         }
         return
       }
       
-      let result = self.buildResult(baseURL: url, htmlString: string)
+      // let decoded = Scraper.decode(html: string) let result = self.buildResult(games)
+      let resultGames = games.compactMap {
+        Scraper.ResultGame(Game(json: $0))
+      }
+      let result = Scraper.Result(games: resultGames, created: Date())
       completion(result)
     })
   }
 }
 
-extension Scraper {
-  fileprivate func buildResult(baseURL url: URL, htmlString: String) -> Scraper.Result? {
-    let subredditLeaderboardPattern =  #"<a class="(.*?)" rel="noopener" target="_blank" href="\/r\/(.*?)\/">"#
-    let matches = matchStringPattern(baseURL: url, htmlString: htmlString, pattern: subredditLeaderboardPattern)
-    return nil
-  }
-    
-  fileprivate func matchStringPattern(baseURL: URL, htmlString: String, pattern: String) -> [String] {
-    return htmlString.matches(for: pattern, group: 2)
-  }
-}
+//
+//extension Scraper {
+//  fileprivate func buildResult(baseURL url: URL, htmlString: String) -> Scraper.Result? {
+//    let subredditLeaderboardPattern =  #"<a class="(.*?)" rel="noopener" target="_blank" href="\/r\/(.*?)\/">"#
+//    let matches = matchStringPattern(baseURL: url, htmlString: htmlString, pattern: subredditLeaderboardPattern)
+//    return nil
+//  }
+//
+//  fileprivate func matchStringPattern(baseURL: URL, htmlString: String, pattern: String) -> [String] {
+//    return htmlString.matches(for: pattern, group: 2)
+//  }
+//
+//  fileprivate static func decode(html: String) -> String {
+//    let htmlUTF8 = html.utf8
+//    let htmlData = Data(htmlUTF8)
+//    do {
+//      let decoded = try NSAttributedString(data: htmlData, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+//      return decoded.string
+//    } catch {
+//      // ErrorStore.shared.add(webViewItem: ErrorStoreItem(error: RedditNetworkerError("SubmarineHTMLStringTransformer decode() html \(html) caused exception: \(error.localizedDescription)"), date: Date(), sender: SubmarineHTMLStringTransformer.self))
+//      return html
+//    }
+//  }
+//}
