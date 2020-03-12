@@ -24,10 +24,30 @@ class StandingsViewController: TeamsViewController {
   internal var gamesModel: GamesModel? {
     didSet {
       tableView.reloadData()
+      
+      let mostUpToDateWeekIndexPath: IndexPath? = {
+        let tableViewIndexForMostRecentSec = backingGamesModel.sections.firstIndex { (s) -> Bool in
+          guard let overStatus = s.cells.first?.underlying.underlying.isGameOver else {
+            return false
+          }
+          return overStatus == false
+        }
+        
+        guard let sec = tableViewIndexForMostRecentSec else {
+          return nil
+        }
+        
+        return IndexPath(row: 0, section: sec)
+      }()
+        
+      if let indexPath = mostUpToDateWeekIndexPath {
+        tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+      }
     }
   }
 
   fileprivate var searchController: UISearchController?
+  fileprivate let feedbackGenerator = UISelectionFeedbackGenerator()
   
   init() {
     backingModel = builder.buildDivisionsModel()
@@ -60,12 +80,37 @@ class StandingsViewController: TeamsViewController {
     search.searchBar.delegate = self
     search.searchBar.showsCancelButton = false
     
+//    if let scopeBar = search.searchBar.subviews.first?.subviews.first?.subviews.first(where: { $0 is UISegmentedControl }) as? UISegmentedControl { // lol
+//      scopeBar.addTarget(self, action: #selector(scopeBarTapped(_:)), for: .allTouchEvents)
+//    }
+//
     extendedLayoutIncludesOpaqueBars = true
     definesPresentationContext = true
     navigationItem.titleView = search.searchBar
     search.searchBar.sizeToFit()
     
     searchController = search
+    
+    self.becomeFirstResponder()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    feedbackGenerator.prepare()
+  }
+  
+  override var canBecomeFirstResponder: Bool {
+    return true
+  }
+  
+  override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+    guard event?.subtype == UIEvent.EventSubtype.motionShake else {
+      return
+    }
+    
+    self.searchController?.searchBar.placeholder = "Updating 🏈 exefel..."
+    reloadBackend()
   }
   
   override func reloadBackend() {
@@ -81,7 +126,6 @@ class StandingsViewController: TeamsViewController {
       
       if let searchBar = self.searchController?.searchBar {
         searchBar.placeholder = "Search 🏈 exefel, pull to refresh"
-
         self.searchBar(searchBar, selectedScopeButtonIndexDidChange: searchBar.selectedScopeButtonIndex)
       }
     }
@@ -173,12 +217,13 @@ class StandingsViewController: TeamsViewController {
       loadWhenDoneDragging = false
       reloadBackend()
     }
-
   }
 }
 
 extension StandingsViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+    self.feedbackGenerator.selectionChanged()
+
     if selectedScope == 0 {
       backingModel = builder.buildDivisionsModel()
       model = backingModel
@@ -192,38 +237,6 @@ extension StandingsViewController: UISearchBarDelegate {
     else if selectedScope == 2 {
       backingGamesModel = builder.buildScheduleModel()
       gamesModel = backingGamesModel
-      
-      let mostUpToDateWeekIndexPath: IndexPath? = {
-//        let mostRecentSorted = backingGamesModel.sections.sorted { (s1, s2) -> Bool in
-////          guard let t1 = s1.cells.first?.underlying.timeGameStarts.timeIntervalSinceNow else {
-////            return false
-////          }
-////          guard let t2 = s2.cells.first?.underlying.timeGameStarts.timeIntervalSinceNow else {
-////            return true
-////          }
-//
-//          //return t1 > t2
-//
-//          return (s1.cells.first?.underlying.isGameOver ?? <#default value#>)
-//        }
-        
-        let tableViewIndexForMostRecentSec = backingGamesModel.sections.firstIndex { (s) -> Bool in
-          guard let overStatus = s.cells.first?.underlying.underlying.isGameOver else {
-            return false
-          }
-          return overStatus == false //s.title == mostRecentSorted.first?.title // TODO real equality comparison using Hashable/Equatable?
-        }
-        
-        guard let sec = tableViewIndexForMostRecentSec else {
-          return nil
-        }
-        
-        return IndexPath(row: 0, section: sec)
-      }()
-        
-      if let indexPath = mostUpToDateWeekIndexPath {
-        tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
-      }
     }
   }
   
