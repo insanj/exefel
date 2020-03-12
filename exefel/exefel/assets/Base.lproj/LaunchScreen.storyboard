@@ -17,19 +17,19 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gFB-WW-eA7">
                                 <rect key="frame" x="0.0" y="448" width="414" height="448"/>
-                                <color key="backgroundColor" red="1" green="0.32937198880000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.58802050350000001" blue="0.9576095939" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exefel" translatesAutoresizingMaskIntoConstraints="NO" id="F6H-mn-Iod">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exefel2" translatesAutoresizingMaskIntoConstraints="NO" id="F6H-mn-Iod">
                                 <rect key="frame" x="0.0" y="241" width="414" height="414"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="F6H-mn-Iod" secondAttribute="height" multiplier="1:1" id="1th-UZ-0tL"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.52963221069999999" blue="0.25371220709999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.38153272869999999" green="0.76453167200000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="F6H-mn-Iod" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" symbolic="YES" id="7JR-Q2-Uo1"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="F6H-mn-Iod" secondAttribute="trailing" constant="20" symbolic="YES" id="GSF-h0-yaW"/>
+                            <constraint firstItem="F6H-mn-Iod" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" symbolic="YES" id="7JR-Q2-Uo1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="F6H-mn-Iod" secondAttribute="trailing" symbolic="YES" id="GSF-h0-yaW"/>
                             <constraint firstItem="gFB-WW-eA7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="HSl-uk-ctW"/>
                             <constraint firstItem="gFB-WW-eA7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OXp-zf-Gqx"/>
                             <constraint firstAttribute="bottom" secondItem="gFB-WW-eA7" secondAttribute="bottom" id="jZe-JJ-SUr"/>
@@ -45,6 +45,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="exefel" width="682.66668701171875" height="682.66668701171875"/>
+        <image name="exefel2" width="682.66668701171875" height="682.66668701171875"/>
     </resources>
 </document>
