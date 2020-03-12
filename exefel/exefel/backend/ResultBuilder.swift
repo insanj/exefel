@@ -226,7 +226,13 @@ class ResultBuilder: OfflineBuilder {
     let westSorted = westUnsorted.sorted(by: divisionSorter)
     let eastSorted = eastUnsorted.sorted(by: divisionSorter)
     let sortedTeams = teams.sorted { (t1, t2) -> Bool in
-      return t1.overallWins - t1.overallLosses > t2.overallWins - t2.overallLosses
+      let d1 = t1.divisionWins - t1.divisionLosses, d2 = t2.divisionWins - t2.divisionLosses
+      let o1 = t1.overallWins - t1.overallLosses, o2 = t2.overallWins - t2.overallLosses
+      if o1 == o2 {
+        return d1 > d2
+      }
+      
+      return o1 > o2
     }
     
     return BuiltStandingsTeams(overall: sortedTeams, east: eastSorted, west: westSorted)
