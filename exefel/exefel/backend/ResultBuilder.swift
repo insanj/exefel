@@ -118,6 +118,10 @@ class ResultBuilder: OfflineBuilder {
     let teamAbbr: String
     let teamLocation: String
     let teamName: String
+    let overallWins: Int
+    let overallLosses: Int
+    let divisionWins: Int
+    let divisionLosses: Int
     
     static let WEST = "West"
     static let EAST = "East"
@@ -131,237 +135,149 @@ class ResultBuilder: OfflineBuilder {
       
       return "??"
     }
+    
+    init(teamAbbr: String?=nil, teamLocation: String?=nil, teamName: String?=nil, overallWins: Int=0, overallLosses: Int=0, divisionWins: Int=0, divisionLosses: Int=0) {
+      self.teamAbbr = teamAbbr ?? "??"
+      self.teamLocation = teamLocation ?? "??"
+      self.teamName = teamName ?? "??"
+      self.overallWins = overallWins
+      self.overallLosses = overallLosses
+      self.divisionWins = divisionWins
+      self.divisionLosses = divisionLosses
+    }
+    
+    func with(overallWins newOverallWins: Int?=nil, overallLosses newOverallLosses: Int?=nil, divisionWins newDivisionWins: Int?=nil, divisionLosses newDivisionLosses: Int?=nil) -> StandingsTeam {
+      return StandingsTeam(teamAbbr: teamAbbr, teamLocation: teamLocation, teamName: teamName, overallWins: newOverallWins ?? overallWins, overallLosses: newOverallLosses ?? overallLosses, divisionWins: newDivisionWins ?? divisionWins, divisionLosses: newDivisionLosses ?? divisionLosses)
+    }
+    
+    func adding(overallWins newOverallWins: Int=0, overallLosses newOverallLosses: Int=0, divisionWins newDivisionWins: Int=0, divisionLosses newDivisionLosses: Int=0) -> StandingsTeam {
+      return StandingsTeam(teamAbbr: teamAbbr, teamLocation: teamLocation, teamName: teamName, overallWins: overallWins + newOverallWins, overallLosses: overallLosses + newOverallLosses, divisionWins: divisionWins + newDivisionWins, divisionLosses: divisionLosses + newDivisionLosses)
+    }
+  }
+  
+  fileprivate struct BuiltStandingsTeams {
+    let overall: [StandingsTeam]
+    let east: [StandingsTeam]
+    let west: [StandingsTeam]
+  }
+  
+  fileprivate func buildStandingsTeams() -> BuiltStandingsTeams {
+    var teams = [StandingsTeam]()
+    let endedGames = result.games.compactMap({ $0.underlying }).filter({ $0.isGameOver == true })
+    for game in endedGames {
+      guard let resultAwayScore = game.awayScore, let resultHomeScore = game.homeScore else {
+        continue
+      }
+       
+      let homeIsWinner = resultHomeScore > resultAwayScore
+      var winningTeam: StandingsTeam, losingTeam: StandingsTeam
+      if homeIsWinner {
+        winningTeam = StandingsTeam(teamAbbr: game.homeTeamAbbr,
+                                    teamLocation: game.homeTeamDisplayName,
+                                    teamName: game.homeTeamMascot)
+         
+        losingTeam = StandingsTeam(teamAbbr: game.awayTeamAbbr,
+                                    teamLocation: game.awayTeamDisplayName,
+                                    teamName: game.awayTeamMascot)
+      } else {
+        winningTeam = StandingsTeam(teamAbbr: game.awayTeamAbbr,
+                                    teamLocation: game.awayTeamDisplayName,
+                                    teamName: game.awayTeamMascot)
+         
+        losingTeam = StandingsTeam(teamAbbr: game.homeTeamAbbr,
+                                    teamLocation: game.homeTeamDisplayName,
+                                    teamName: game.homeTeamMascot)
+      }
+       
+      if let existingWinning = teams.first(where: { $0.teamAbbr == winningTeam.teamAbbr }) {
+        winningTeam = existingWinning
+        teams.removeAll { $0.teamAbbr == winningTeam.teamAbbr }
+      }
+       
+      if let existingLosing = teams.first(where: { $0.teamAbbr == losingTeam.teamAbbr }) {
+        losingTeam = existingLosing
+        teams.removeAll { $0.teamAbbr == losingTeam.teamAbbr }
+      }
+       
+      let finishedWinning = winningTeam.adding(overallWins: 1, divisionWins: winningTeam.teamDivision == losingTeam.teamDivision ? 1 : 0)
+      let finishedLosing = losingTeam.adding(overallLosses: 1, divisionLosses: winningTeam.teamDivision == losingTeam.teamDivision ? 1 : 0)
+       
+      teams.append(finishedWinning)
+      teams.append(finishedLosing)
+    }
+         
+    let westUnsorted = teams.filter { $0.teamDivision == StandingsTeam.WEST }
+    let eastUnsorted = teams.filter { $0.teamDivision == StandingsTeam.EAST }
+     
+    let divisionSorter: (ResultBuilder.StandingsTeam, ResultBuilder.StandingsTeam) -> Bool = { t1, t2 in
+      let d1 = t1.divisionWins - t1.divisionLosses, d2 = t2.divisionWins - t2.divisionLosses
+      let o1 = t1.overallWins - t1.overallLosses, o2 = t2.overallWins - t2.overallLosses
+      if d1 == d2 {
+        return o1 > o2
+      }
+//      } else if o2 - o1 > 2 { // if overall differential is > 2, then choose the better team
+//        return false
+//      } else if o1 - o2 > 2 {
+//        return true
+//      }
+      return d1 > d2
+    }
+    
+    let westSorted = westUnsorted.sorted(by: divisionSorter)
+    let eastSorted = eastUnsorted.sorted(by: divisionSorter)
+    let sortedTeams = teams.sorted { (t1, t2) -> Bool in
+      return t1.overallWins - t1.overallLosses > t2.overallWins - t2.overallLosses
+    }
+    
+    return BuiltStandingsTeams(overall: sortedTeams, east: eastSorted, west: westSorted)
   }
   
   override func buildStandingsModel() -> TeamsViewController.Model {
-    var winLosses = [String: (Int, Int)]()
-    var teamForAbbr = [String: StandingsTeam]()
+    let built = buildStandingsTeams()
+    let sortedTeams = built.overall, westSorted = built.west, eastSorted = built.east
     
-    let endedGames = result.games.filter { $0.underlying.isGameOver == true }
-    for game in endedGames {
-      guard let resultAwayScore = game.underlying.awayScore, let resultHomeScore = game.underlying.homeScore else {
-        continue
-      }
-      
-      let homeIsWinner = resultHomeScore > resultAwayScore
-      guard let winningAbbr = homeIsWinner ? game.underlying.homeTeamAbbr : game.underlying.awayTeamAbbr else {
-        continue
-      }
-      
-      guard let losingAbbr = homeIsWinner ? game.underlying.awayTeamAbbr : game.underlying.homeTeamAbbr else {
-        continue
-      }
-      
-      if let existingWinner = winLosses[winningAbbr] {
-        winLosses[winningAbbr] = (existingWinner.0 + 1, existingWinner.1)
-      } else {
-        winLosses[winningAbbr] = (1, 0)
-      }
-      
-      if let existingLoser = winLosses[losingAbbr] {
-        winLosses[losingAbbr] = (existingLoser.0, existingLoser.1 + 1)
-      } else {
-        winLosses[losingAbbr] = (0, 1)
-      }
-      
-      if homeIsWinner {
-        teamForAbbr[winningAbbr] = StandingsTeam(teamAbbr: winningAbbr, teamLocation: game.underlying.homeTeamDisplayName ?? "??", teamName: game.underlying.homeTeamMascot ?? "??")
-        teamForAbbr[losingAbbr] = StandingsTeam(teamAbbr: losingAbbr, teamLocation: game.underlying.awayTeamDisplayName ?? "", teamName: game.underlying.awayTeamMascot ?? "??")
-      } else {
-        teamForAbbr[winningAbbr] = StandingsTeam(teamAbbr: winningAbbr, teamLocation: game.underlying.awayTeamDisplayName ?? "??", teamName: game.underlying.awayTeamMascot ?? "??")
-        teamForAbbr[losingAbbr] = StandingsTeam(teamAbbr: losingAbbr, teamLocation: game.underlying.homeTeamDisplayName ?? "", teamName: game.underlying.homeTeamMascot ?? "??")
-      }
-    }
-        
-    //var divisions = [String: [StandingsTeam]]()
-    var westUnsorted = [StandingsTeam]()
-    var eastUnsorted = [StandingsTeam]()
-    
-    teamForAbbr.forEach { (key, value) in
-      if value.teamDivision == StandingsTeam.WEST {
-        westUnsorted.append(value)
-      } else if value.teamDivision == StandingsTeam.EAST {
-        eastUnsorted.append(value)
-      }
-    }
-    
-    let westSorted = westUnsorted.sorted(by: { (t1, t2) -> Bool in
-      guard let w1 = winLosses[t1.teamAbbr] else {
-        return false
-      }
-      
-      guard let w2 = winLosses[t2.teamAbbr] else {
-        return true
-      }
-      
-      return w1.0 - w1.1 > w2.0 - w2.1
-    })
-    
-    let eastSorted = eastUnsorted.sorted(by: { (t1, t2) -> Bool in
-      guard let w1 = winLosses[t1.teamAbbr] else {
-        return false
-      }
-      
-      guard let w2 = winLosses[t2.teamAbbr] else {
-        return true
-      }
-      
-      return w1.0 - w1.1 > w2.0 - w2.1
-    })
-    
-    let sortedAbbrs: [String] = winLosses.keys.sorted { (k1, k2) -> Bool in
-      guard let w1 = winLosses[k1] else {
-        return false
-      }
-      
-      guard let w2 = winLosses[k2] else {
-        return true
-      }
-      
-      return w1.0 - w1.1 > w2.0 - w2.1
-    }
-    
-    let teams = sortedAbbrs.compactMap { (key) -> TeamsViewController.ModelItem? in
-      let winLoss = winLosses[key] ?? (0, 0)
+    let teamModels = sortedTeams.compactMap { (team) -> TeamsViewController.ModelItem? in
+      let winLoss = (team.overallWins, team.overallLosses)
       
       var placeInDivision = "??"
-      if teamForAbbr[key]?.teamDivision == StandingsTeam.WEST {
-        placeInDivision = "\((westSorted.firstIndex(where: { $0.teamAbbr == key }) ?? 0) + 1)"
-      } else if teamForAbbr[key]?.teamDivision == StandingsTeam.EAST {
-        placeInDivision = "\((eastSorted.firstIndex(where: { $0.teamAbbr == key }) ?? 0) + 1)"
+      if team.teamDivision == StandingsTeam.WEST {
+        placeInDivision = "\((westSorted.firstIndex(where: { $0.teamAbbr == team.teamAbbr }) ?? 0) + 1)"
+      } else if team.teamDivision == StandingsTeam.EAST {
+        placeInDivision = "\((eastSorted.firstIndex(where: { $0.teamAbbr == team.teamAbbr }) ?? 0) + 1)"
       }
       
-      let cell = TeamCell.Model(image: imageForTeam(abbr: key),
-                                top: teamForAbbr[key]?.teamLocation,
-                                middle: teamForAbbr[key]?.teamName,
-                                bottom: "\(winLoss.0)-\(winLoss.1), #\(placeInDivision) XFL \(teamForAbbr[key]?.teamDivision ?? "??")")
+      let cell = TeamCell.Model(image: imageForTeam(abbr: team.teamAbbr),
+                                top: team.teamLocation,
+                                middle: team.teamName,
+                                bottom: "\(winLoss.0)-\(winLoss.1), #\(placeInDivision) XFL \(team.teamDivision )")
       
       return TeamsViewController.ModelItem(cell: cell, indicator: .none) { (vc) -> (Void) in
         // do nothing
       }
     }
 
-    let overallSection = TeamsViewController.ModelSection(title: "Overall", footer: nil, items: teams)
+    let overallSection = TeamsViewController.ModelSection(title: "Overall", footer: nil, items: teamModels)
     return TeamsViewController.Model(title: "Overall", sections: [overallSection])
   }
   
   override func buildDivisionsModel() -> TeamsViewController.Model {
-    var winLosses = [String: (Int, Int)]()
-    var teamForAbbr = [String: StandingsTeam]()
+    let built = buildStandingsTeams()
+    let sortedTeams = built.overall, westSorted = built.west, eastSorted = built.east
     
-    let endedGames = result.games.filter { $0.underlying.isGameOver == true }
-    for game in endedGames {
-      guard let resultAwayScore = game.underlying.awayScore, let resultHomeScore = game.underlying.homeScore else {
-        continue
-      }
-      
-      let homeIsWinner = resultHomeScore > resultAwayScore
-      guard let winningAbbr = homeIsWinner ? game.underlying.homeTeamAbbr : game.underlying.awayTeamAbbr else {
-        continue
-      }
-      
-      guard let losingAbbr = homeIsWinner ? game.underlying.awayTeamAbbr : game.underlying.homeTeamAbbr else {
-        continue
-      }
-      
-      if let existingWinner = winLosses[winningAbbr] {
-        winLosses[winningAbbr] = (existingWinner.0 + 1, existingWinner.1)
-      } else {
-        winLosses[winningAbbr] = (1, 0)
-      }
-      
-      if let existingLoser = winLosses[losingAbbr] {
-        winLosses[losingAbbr] = (existingLoser.0, existingLoser.1 + 1)
-      } else {
-        winLosses[losingAbbr] = (0, 1)
-      }
-      
-      if homeIsWinner {
-        teamForAbbr[winningAbbr] = StandingsTeam(teamAbbr: winningAbbr, teamLocation: game.underlying.homeTeamDisplayName ?? "??", teamName: game.underlying.homeTeamMascot ?? "??")
-        teamForAbbr[losingAbbr] = StandingsTeam(teamAbbr: losingAbbr, teamLocation: game.underlying.awayTeamDisplayName ?? "", teamName: game.underlying.awayTeamMascot ?? "??")
-      } else {
-        teamForAbbr[winningAbbr] = StandingsTeam(teamAbbr: winningAbbr, teamLocation: game.underlying.awayTeamDisplayName ?? "??", teamName: game.underlying.awayTeamMascot ?? "??")
-        teamForAbbr[losingAbbr] = StandingsTeam(teamAbbr: losingAbbr, teamLocation: game.underlying.homeTeamDisplayName ?? "", teamName: game.underlying.homeTeamMascot ?? "??")
-      }
-    }
-        
-    //var divisions = [String: [StandingsTeam]]()
-    var westUnsorted = [StandingsTeam]()
-    var eastUnsorted = [StandingsTeam]()
-    
-    teamForAbbr.forEach { (key, value) in
-      if value.teamDivision == StandingsTeam.WEST {
-        westUnsorted.append(value)
-      } else if value.teamDivision == StandingsTeam.EAST {
-        eastUnsorted.append(value)
-      }
-    }
-    
-    let westSorted = westUnsorted.sorted(by: { (t1, t2) -> Bool in
-      guard let w1 = winLosses[t1.teamAbbr] else {
-        return false
-      }
-      
-      guard let w2 = winLosses[t2.teamAbbr] else {
-        return true
-      }
-      
-      return w1.0 - w1.1 > w2.0 - w2.1
-    })
-    
-    let eastSorted = eastUnsorted.sorted(by: { (t1, t2) -> Bool in
-      guard let w1 = winLosses[t1.teamAbbr] else {
-        return false
-      }
-      
-      guard let w2 = winLosses[t2.teamAbbr] else {
-        return true
-      }
-      
-      return w1.0 - w1.1 > w2.0 - w2.1
-    })
-    
-    let sortedAbbrs: [String] = winLosses.keys.sorted { (k1, k2) -> Bool in
-      guard let w1 = winLosses[k1] else {
-        return false
-      }
-      
-      guard let w2 = winLosses[k2] else {
-        return true
-      }
-      
-      return w1.0 - w1.1 > w2.0 - w2.1
-    }
-    
-    let westTeams = westSorted.compactMap { (t) -> TeamsViewController.ModelItem? in
-      let key = t.teamAbbr
-      let winLoss = winLosses[key] ?? (0, 0)
-      
-      let placeInXFL = (sortedAbbrs.firstIndex(of: key) ?? 0) + 1
-      let cell = TeamCell.Model(image: imageForTeam(abbr: key),
-                                top: teamForAbbr[key]?.teamLocation,
-                                middle: teamForAbbr[key]?.teamName,
-                                bottom: "\(winLoss.0)-\(winLoss.1), #\(placeInXFL) Overall")
+    let transformer: (StandingsTeam) -> (TeamsViewController.ModelItem?) = { team in
+      let placeInXFL = (sortedTeams.firstIndex(where: { $0.teamAbbr == team.teamAbbr }) ?? 0) + 1
+      let cell = TeamCell.Model(image: self.imageForTeam(abbr: team.teamAbbr),
+                                top: team.teamLocation,
+                                middle: team.teamName,
+                                bottom: "\(team.overallWins)-\(team.overallLosses) (\(team.divisionWins)-\(team.divisionLosses)), #\(placeInXFL) Overall")
       
       return TeamsViewController.ModelItem(cell: cell, indicator: .none) { (vc) -> (Void) in
         // do nothing
       }
     }
     
-    let eastTeams = eastSorted.compactMap { (t) -> TeamsViewController.ModelItem? in
-      let key = t.teamAbbr
-      let winLoss = winLosses[key] ?? (0, 0)
-      
-      let placeInXFL = (sortedAbbrs.firstIndex(of: key) ?? 0) + 1
-      let cell = TeamCell.Model(image: imageForTeam(abbr: key),
-                                top: teamForAbbr[key]?.teamLocation,
-                                middle: teamForAbbr[key]?.teamName,
-                                bottom: "\(winLoss.0)-\(winLoss.1), #\(placeInXFL) Overall")
-      
-      return TeamsViewController.ModelItem(cell: cell, indicator: .none) { (vc) -> (Void) in
-        // do nothing
-      }
-    }
+    let westTeams = westSorted.compactMap(transformer)
+    let eastTeams = eastSorted.compactMap(transformer)
 
     let westSection = TeamsViewController.ModelSection(title: "XFL West", footer: nil, items: westTeams)
     let eastSection = TeamsViewController.ModelSection(title: "XFL East", footer: nil, items: eastTeams)
