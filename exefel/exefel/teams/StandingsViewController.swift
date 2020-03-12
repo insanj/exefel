@@ -26,14 +26,14 @@ class StandingsViewController: TeamsViewController {
       tableView.reloadData()
       
       let mostUpToDateWeekIndexPath: IndexPath? = {
-        let tableViewIndexForMostRecentSec = backingGamesModel.sections.firstIndex { (s) -> Bool in
+        let tableViewIndexForMostRecentSec = gamesModel?.sections.firstIndex { (s) -> Bool in
           guard let overStatus = s.cells.first?.underlying.underlying.isGameOver else {
             return false
           }
           return overStatus == false
         }
         
-        guard let sec = tableViewIndexForMostRecentSec else {
+        guard let sec = tableViewIndexForMostRecentSec, sec < gamesModel?.sections.count ?? 0 else {
           return nil
         }
         
