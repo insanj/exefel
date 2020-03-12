@@ -10,7 +10,7 @@ import UIKit
 
 class GameCell: UITableViewCell {
   // MARK: - static vars
-  static let height: CGFloat = 92.0
+  static let height: CGFloat = 76.0
   static let reuseIdentifier: String = "GameCell"
   
   // MARK: fonts
@@ -19,7 +19,15 @@ class GameCell: UITableViewCell {
   }
   
   static var rightFont: UIFont {
-    return UIFont.preferredFont(forTextStyle: .body)
+    return UIFont.preferredFont(forTextStyle: .subheadline)
+  }
+
+  static var leftBoldFont: UIFont {
+    return UIFont.systemFont(ofSize: leftFont.pointSize, weight: .bold)
+  }
+  
+  static var rightBoldFont: UIFont {
+    return UIFont.systemFont(ofSize: rightFont.pointSize, weight: .bold)
   }
   
   // MARK: colors
@@ -40,39 +48,80 @@ class GameCell: UITableViewCell {
   }
   
   // MARK: - Model
+//  struct Model {
+//    let underlying: Scraper.ResultGame?
+//    let leftTop: ModelSide?
+//    let leftBottom: ModelSide?
+//    let rightTop: String?
+//    let rightBottom: String?
+//
+//    init(underlying: Scraper.ResultGame?=nil,
+//         leftTop: ModelSide?=nil,
+//         leftBottom: ModelSide?=nil,
+//         rightTop: String?=nil,
+//         rightBottom: String?=nil) {
+//      self.underlying = underlying
+//      self.leftTop = leftTop
+//      self.leftBottom = leftBottom
+//      self.rightTop = rightTop
+//      self.rightBottom = rightBottom
+//    }
+//  }
+//
+//  struct ModelSide {
+//    let image: UIImage?
+//    let title: String?
+//  }
+  
   struct Model {
-    let underlying: Scraper.ResultGame?
-    let leftTop: ModelSide?
-    let leftBottom: ModelSide?
-    let rightTop: String?
-    let rightBottom: String?
-    
-    init(underlying: Scraper.ResultGame?=nil,
-         leftTop: ModelSide?=nil,
-         leftBottom: ModelSide?=nil,
-         rightTop: String?=nil,
-         rightBottom: String?=nil) {
-      self.underlying = underlying
-      self.leftTop = leftTop
-      self.leftBottom = leftBottom
-      self.rightTop = rightTop
-      self.rightBottom = rightBottom
-    }
+    let underlying: Scraper.ResultGame
+    let top: ModelSide?
+    let bottom: ModelSide?
   }
   
   struct ModelSide {
     let image: UIImage?
-    let title: String?
+    let left: String?
+    let middle: String?
+    let right: String?
+    let shouldBeBold: Bool
+
+    init(image: UIImage?=nil, left: String?=nil, middle: String?=nil, right: String?=nil, shouldBeBold: Bool=false) {
+      self.image = image
+      self.left = left
+      self.middle = middle
+      self.right = right
+      self.shouldBeBold = shouldBeBold
+    }
   }
   
   var model: GameCell.Model? {
     didSet {
-      leftTopImageView.image = model?.leftTop?.image
-      leftTopLabel.text = model?.leftTop?.title
-      leftBottomImageView.image = model?.leftBottom?.image
-      leftBottomLabel.text = model?.leftBottom?.title
-      rightTopLabel.text = model?.rightTop
-      rightBottomLabel.text = model?.rightBottom
+      topLeftImageView.image = model?.top?.image
+      topLeftLabel.text = model?.top?.left
+      topMiddleLabel.text = model?.top?.middle
+      topRightLabel.text = model?.top?.right
+      
+      bottomLeftImageView.image = model?.bottom?.image
+      bottomLeftLabel.text = model?.bottom?.left
+      bottomMiddleLabel.text = model?.bottom?.middle
+      bottomRightLabel.text = model?.bottom?.right
+      
+      if model?.top?.shouldBeBold == true {
+        topLeftLabel.font = GameCell.leftBoldFont
+        topMiddleLabel.font = GameCell.rightBoldFont
+      } else {
+        topLeftLabel.font = GameCell.leftFont
+        topMiddleLabel.font = GameCell.rightFont
+      }
+      
+      if model?.bottom?.shouldBeBold == true {
+        bottomLeftLabel.font = GameCell.leftBoldFont
+        bottomMiddleLabel.font = GameCell.rightBoldFont
+      } else {
+        bottomLeftLabel.font = GameCell.leftFont
+        bottomMiddleLabel.font = GameCell.rightFont
+      }
     }
   }
   
@@ -83,21 +132,14 @@ class GameCell: UITableViewCell {
     return view
   }()
   
-  fileprivate let leftTopImageView: UIImageView = {
+  fileprivate let topLeftImageView: UIImageView = {
     let view = UIImageView()
     view.contentMode = .scaleAspectFit
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
   
-  fileprivate let leftBottomImageView: UIImageView = {
-    let view = UIImageView()
-    view.contentMode = .scaleAspectFit
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }()
-  
-  fileprivate let leftTopLabel: UILabel = {
+  fileprivate let topLeftLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 1
     label.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -108,7 +150,40 @@ class GameCell: UITableViewCell {
     return label
   }()
   
-  fileprivate let leftBottomLabel: UILabel = {
+  fileprivate let topMiddleLabel: UILabel = {
+    let label = UILabel()
+    label.numberOfLines = 1
+    label.textAlignment = .right
+    label.setContentCompressionResistancePriority(.required, for: .vertical)
+    label.setContentHuggingPriority(.required, for: .vertical)
+    label.setContentCompressionResistancePriority(.required, for: .horizontal)
+    label.setContentHuggingPriority(.required, for: .horizontal)
+    label.translatesAutoresizingMaskIntoConstraints = false
+    return label
+  }()
+  
+  fileprivate let topRightLabel: UILabel = {
+    let label = UILabel()
+    label.numberOfLines = 1
+    label.textAlignment = .right
+    label.adjustsFontSizeToFitWidth = true
+    label.minimumScaleFactor = 0.6
+    label.setContentCompressionResistancePriority(.required, for: .vertical)
+    label.setContentHuggingPriority(.required, for: .vertical)
+    label.setContentCompressionResistancePriority(.required, for: .horizontal)
+    label.setContentHuggingPriority(.required, for: .horizontal)
+    label.translatesAutoresizingMaskIntoConstraints = false
+    return label
+  }()
+  
+  fileprivate let bottomLeftImageView: UIImageView = {
+    let view = UIImageView()
+    view.contentMode = .scaleAspectFit
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+  
+  fileprivate let bottomLeftLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 1
     label.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -119,7 +194,7 @@ class GameCell: UITableViewCell {
     return label
   }()
   
-  fileprivate let rightTopLabel: UILabel = {
+  fileprivate let bottomMiddleLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 1
     label.textAlignment = .right
@@ -129,10 +204,12 @@ class GameCell: UITableViewCell {
     return label
   }()
   
-  fileprivate let rightBottomLabel: UILabel = {
+  fileprivate let bottomRightLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 1
     label.textAlignment = .right
+    label.adjustsFontSizeToFitWidth = true
+    label.minimumScaleFactor = 0.6
     label.setContentCompressionResistancePriority(.required, for: .vertical)
     label.setContentHuggingPriority(.required, for: .vertical)
     label.translatesAutoresizingMaskIntoConstraints = false
@@ -149,44 +226,58 @@ class GameCell: UITableViewCell {
     setup()
   }
   
+  static var rightLabelWidth: CGFloat {
+    return 76.0 // go 76ers! 🏀
+  }
+  
   func setup() {
+    layoutMargins = .zero
+
     contentView.addSubview(containerView)
-    containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16.0).isActive = true
-    containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4.0).isActive = true
-    containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4.0).isActive = true
-    containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -24.0).isActive = true
+    containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12.0).isActive = true
+    containerView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+    containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -8.0).isActive = true
 
-    containerView.addSubview(leftTopImageView)
-    leftTopImageView.bottomAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    leftTopImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
-    leftTopImageView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-    leftTopImageView.widthAnchor.constraint(equalTo: leftTopImageView.heightAnchor).isActive = true
+    containerView.addSubview(topLeftImageView)
+    topLeftImageView.bottomAnchor.constraint(equalTo: containerView.centerYAnchor, constant: -1).isActive = true
+    topLeftImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+    topLeftImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16.0).isActive = true
+    topLeftImageView.widthAnchor.constraint(equalTo: topLeftImageView.heightAnchor).isActive = true
+    
+    containerView.addSubview(topRightLabel)
+    topRightLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -6.0).isActive = true
+    topRightLabel.centerYAnchor.constraint(equalTo: topLeftImageView.centerYAnchor).isActive = true
+    topRightLabel.widthAnchor.constraint(equalToConstant: GameCell.rightLabelWidth).isActive = true
 
-    containerView.addSubview(leftBottomImageView)
-    leftBottomImageView.topAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    leftBottomImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
-    leftBottomImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-    leftBottomImageView.widthAnchor.constraint(equalTo: leftBottomImageView.heightAnchor).isActive = true
+    containerView.addSubview(topMiddleLabel)
+    topMiddleLabel.rightAnchor.constraint(equalTo: topRightLabel.leftAnchor, constant: -4.0).isActive = true
+    topMiddleLabel.centerYAnchor.constraint(equalTo: topLeftImageView.centerYAnchor).isActive = true
+    
+    containerView.addSubview(topLeftLabel)
+    topLeftLabel.leftAnchor.constraint(equalTo: topLeftImageView.rightAnchor, constant: 6.0).isActive = true
+    topLeftLabel.centerYAnchor.constraint(equalTo: topLeftImageView.centerYAnchor).isActive = true
+    topLeftLabel.rightAnchor.constraint(lessThanOrEqualTo: topMiddleLabel.leftAnchor, constant: -3).isActive = true
+        
+    containerView.addSubview(bottomLeftImageView)
+    bottomLeftImageView.topAnchor.constraint(equalTo: containerView.centerYAnchor, constant: 1).isActive = true
+    bottomLeftImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+    bottomLeftImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16.0).isActive = true
+    bottomLeftImageView.widthAnchor.constraint(equalTo: topLeftImageView.heightAnchor).isActive = true
+    
+    containerView.addSubview(bottomRightLabel)
+    bottomRightLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -6.0).isActive = true
+    bottomRightLabel.centerYAnchor.constraint(equalTo: bottomLeftImageView.centerYAnchor).isActive = true
+    bottomRightLabel.widthAnchor.constraint(equalToConstant: GameCell.rightLabelWidth).isActive = true
 
-    containerView.addSubview(leftTopLabel)
-    leftTopLabel.leftAnchor.constraint(equalTo: leftTopImageView.rightAnchor, constant: 6.0).isActive = true
-    leftTopLabel.centerYAnchor.constraint(equalTo: leftTopImageView.centerYAnchor).isActive = true
-    leftTopLabel.rightAnchor.constraint(lessThanOrEqualTo: containerView.rightAnchor, constant: -30.0).isActive = true
+    containerView.addSubview(bottomMiddleLabel)
+    bottomMiddleLabel.rightAnchor.constraint(equalTo: bottomRightLabel.leftAnchor, constant: -4.0).isActive = true
+    bottomMiddleLabel.centerYAnchor.constraint(equalTo: bottomLeftImageView.centerYAnchor).isActive = true
     
-    containerView.addSubview(leftBottomLabel)
-    leftBottomLabel.leftAnchor.constraint(equalTo: leftBottomImageView.rightAnchor, constant: 6.0).isActive = true
-    leftBottomLabel.centerYAnchor.constraint(equalTo: leftBottomImageView.centerYAnchor).isActive = true
-    leftBottomLabel.rightAnchor.constraint(lessThanOrEqualTo: containerView.rightAnchor, constant: -30.0).isActive = true
-    
-    containerView.addSubview(rightTopLabel)
-    rightTopLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-    rightTopLabel.bottomAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    rightTopLabel.leftAnchor.constraint(equalTo: leftTopLabel.rightAnchor).isActive = true
-    
-    containerView.addSubview(rightBottomLabel)
-    rightBottomLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-    rightBottomLabel.topAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    rightBottomLabel.leftAnchor.constraint(equalTo: leftBottomLabel.rightAnchor).isActive = true
+    containerView.addSubview(bottomLeftLabel)
+    bottomLeftLabel.leftAnchor.constraint(equalTo: bottomLeftImageView.rightAnchor, constant: 6.0).isActive = true
+    bottomLeftLabel.centerYAnchor.constraint(equalTo: bottomLeftImageView.centerYAnchor).isActive = true
+    bottomLeftLabel.rightAnchor.constraint(lessThanOrEqualTo: bottomMiddleLabel.leftAnchor, constant: -3).isActive = true
     
     themeify()
   }
@@ -194,15 +285,16 @@ class GameCell: UITableViewCell {
   func themeify() {
     backgroundColor = GameCell.backgroundColor
     
-    leftTopLabel.font = GameCell.leftFont
-    leftBottomLabel.font = GameCell.leftFont
-    rightTopLabel.font = GameCell.rightFont
-    rightBottomLabel.font = GameCell.rightFont
+    topLeftLabel.textColor = GameCell.leftColor
+    topMiddleLabel.textColor = GameCell.leftColor
+    bottomLeftLabel.textColor = GameCell.leftColor
+    bottomMiddleLabel.textColor = GameCell.leftColor
     
-    leftTopLabel.textColor = GameCell.leftColor
-    leftBottomLabel.textColor = GameCell.leftColor
-    rightTopLabel.textColor = GameCell.rightTopColor
-    rightBottomLabel.textColor = GameCell.rightBottomColor
+    topRightLabel.textColor = GameCell.leftColor
+    bottomRightLabel.textColor = GameCell.rightTopColor
+
+    topRightLabel.font = GameCell.rightFont
+    bottomRightLabel.font = GameCell.rightFont
   }
   
   override func prepareForReuse() {
@@ -213,7 +305,7 @@ class GameCell: UITableViewCell {
 
 extension GameCell.Model: Searchable {
   func matches(text: String) -> Bool {
-    let bodyOfTextToSearch = "\(leftTop?.title ?? "") \(leftBottom?.title ?? "") \(rightTop ?? "" ) \(rightBottom ?? "")"
+    let bodyOfTextToSearch = "\(top?.left ?? "") \(top?.middle ?? "") \(top?.right ?? "" ) \(bottom?.left ?? "") \(bottom?.middle ?? "") \(bottom?.right ?? "")"
     let lowercasedBodyOfText = bodyOfTextToSearch.lowercased()
     let lowercasedSearchText = text.lowercased()
     let lowercasedSearchTextComponent = lowercasedSearchText.components(separatedBy: " ")

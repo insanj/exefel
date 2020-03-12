@@ -33,24 +33,62 @@ class ResultBuilder: OfflineBuilder {
       var weeksDict = [Int: [GameCell.Model]]()
       
       for game in result.games {
-        let cell = GameCell.Model(underlying: game, leftTop: {
-          return GameCell.ModelSide(image: imageForTeam(abbr: game.awayTeam.abbreviation), title: game.awayTeam.name)
-        }(), leftBottom: {
-          return GameCell.ModelSide(image: imageForTeam(abbr: game.homeTeam.abbreviation), title: game.homeTeam.name)
-        }(), rightTop: {
+        let top = GameCell.ModelSide(image: {
+          return imageForTeam(abbr: game.awayTeam.abbreviation)
+        }(), left: {
+          return "\(game.awayTeam.abbreviation) \(game.underlying.awayTeamMascot ?? game.awayTeam.name)"
+        }(), middle: {
+          guard game.timeGameStarts.timeIntervalSinceNow <= 0 else {
+            return ""
+          }
+          
+          guard let s = game.underlying.awayScore else {
+            return ""
+          }
+          return "\(s)"
+        }(), right: {
+          guard game.underlying.isGameOver != true else {
+            return "Final"
+          }
+        
           guard game.timeGameStarts.timeIntervalSinceNow <= 0 else {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EEE"
+            dateFormatter.dateFormat = "M/d"
             let dayOfWeek = dateFormatter.string(from: game.timeGameStarts)
             dateFormatter.dateFormat = "ha"
             let hourOfDay = dateFormatter.string(from: game.timeGameStarts)
             return "\(dayOfWeek) \(hourOfDay.lowercased())"
           }
+            
+          guard let quarter = game.underlying.gameQuarter, let timeRemainingInQuarter = game.underlying.gameClock else {
+            return ""
+          }
           
-          return "\(game.awayTeam.score)-\(game.homeTeam.score)"
-        }(), rightBottom: {
-          return "\(game.televisionNetwork)"
+          return "\(timeRemainingInQuarter) \(quarter)"
+        }(), shouldBeBold: {
+          return game.awayTeam.score > game.homeTeam.score
         }())
+          
+        let bottom = GameCell.ModelSide(image: {
+          return imageForTeam(abbr: game.homeTeam.abbreviation)
+        }(), left: {
+          return "\(game.homeTeam.abbreviation) \(game.underlying.homeTeamMascot ?? game.homeTeam.name)"
+        }(), middle: {
+          guard game.timeGameStarts.timeIntervalSinceNow <= 0 else {
+            return ""
+          }
+
+          guard let s = game.underlying.homeScore else {
+            return ""
+          }
+          return "\(s)"
+        }(), right: {
+          return "\(game.televisionNetwork)"
+        }(), shouldBeBold: {
+          return game.homeTeam.score > game.awayTeam.score
+        }())
+        
+        let cell = GameCell.Model(underlying: game, top: top, bottom: bottom)
         
         if var gamesInWeek = weeksDict[game.weekNumber]  {
           gamesInWeek.append(cell)
@@ -67,7 +105,7 @@ class ResultBuilder: OfflineBuilder {
       }
       
       let sorted = weeksSections.sorted { (s1, s2) -> Bool in
-        return s1.cells.first?.underlying?.weekNumber ?? 0 < s2.cells.first?.underlying?.weekNumber ?? 0
+        return s1.cells.first?.underlying.weekNumber ?? 0 < s2.cells.first?.underlying.weekNumber ?? 0
       }
       
       return sorted

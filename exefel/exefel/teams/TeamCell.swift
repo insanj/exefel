@@ -116,6 +116,8 @@ class TeamCell: UITableViewCell {
   }
   
   func setup() {
+    layoutMargins = .zero
+    
     contentView.addSubview(containerView)
     containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16.0).isActive = true
     containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4.0).isActive = true

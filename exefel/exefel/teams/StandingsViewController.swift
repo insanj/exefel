@@ -100,7 +100,11 @@ class StandingsViewController: TeamsViewController {
       return super.tableView(tableView, titleForHeaderInSection: section)
     }
     
-    return gamesModel?.sections[section].title
+    guard let header = gamesModel?.sections[section].title else {
+      return nil
+    }
+    
+    return "   \(header)"
   }
   
   override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -188,6 +192,38 @@ extension StandingsViewController: UISearchBarDelegate {
     else if selectedScope == 2 {
       backingGamesModel = builder.buildScheduleModel()
       gamesModel = backingGamesModel
+      
+      let mostUpToDateWeekIndexPath: IndexPath? = {
+//        let mostRecentSorted = backingGamesModel.sections.sorted { (s1, s2) -> Bool in
+////          guard let t1 = s1.cells.first?.underlying.timeGameStarts.timeIntervalSinceNow else {
+////            return false
+////          }
+////          guard let t2 = s2.cells.first?.underlying.timeGameStarts.timeIntervalSinceNow else {
+////            return true
+////          }
+//
+//          //return t1 > t2
+//
+//          return (s1.cells.first?.underlying.isGameOver ?? <#default value#>)
+//        }
+        
+        let tableViewIndexForMostRecentSec = backingGamesModel.sections.firstIndex { (s) -> Bool in
+          guard let overStatus = s.cells.first?.underlying.underlying.isGameOver else {
+            return false
+          }
+          return overStatus == false //s.title == mostRecentSorted.first?.title // TODO real equality comparison using Hashable/Equatable?
+        }
+        
+        guard let sec = tableViewIndexForMostRecentSec else {
+          return nil
+        }
+        
+        return IndexPath(row: 0, section: sec)
+      }()
+        
+      if let indexPath = mostUpToDateWeekIndexPath {
+        tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
+      }
     }
   }
   

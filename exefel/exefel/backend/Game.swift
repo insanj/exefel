@@ -142,4 +142,12 @@ class Game {
   var isGameOver: Bool? {
     return json[Key.isGameOver] as? Bool
   }
+  
+  var gameQuarter: Int? {
+    return json[Key.gameQuarter] as? Int
+  }
+  
+  var gameClock: String? {
+    return json[Key.gameClock] as? String
+  }
 }

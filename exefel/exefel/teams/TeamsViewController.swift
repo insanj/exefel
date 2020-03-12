@@ -72,6 +72,8 @@ class TeamsViewController: UITableViewController {
     title = model?.title
     
     tableView.register(TeamCell.self, forCellReuseIdentifier: REUSE_IDENTIFIER)
+    tableView.layoutMargins = .zero
+    tableView.separatorInset = .zero
     
 //    let refresh = UIRefreshControl()
 //    refresh.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
@@ -131,7 +133,10 @@ class TeamsViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    return model?.sections[section].title
+    guard let header = model?.sections[section].title else {
+      return nil
+    }
+    return "   \(header)"
   }
   
   override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {

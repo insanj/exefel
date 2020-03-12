@@ -22,7 +22,6 @@
 		B9D82D8B241448C5006558F2 /* exefelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D8A241448C5006558F2 /* exefelTests.swift */; };
 		B9D82D96241448C5006558F2 /* exefelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D95241448C5006558F2 /* exefelUITests.swift */; };
 		B9D82DA524144C3D006558F2 /* StandingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DA424144C3D006558F2 /* StandingsViewController.swift */; };
-		B9D82DA724144DD4006558F2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D82DA624144DD4006558F2 /* Default-568h@2x.png */; };
 		B9D82DA92414523D006558F2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DA82414523D006558F2 /* UIImage+Extension.swift */; };
 		B9D82DAB241453E5006558F2 /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DAA241453E5006558F2 /* TeamCell.swift */; };
 		B9D82DAD24145481006558F2 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DAC24145481006558F2 /* Bundle+Extension.swift */; };
@@ -68,7 +67,6 @@
 		B9D82D95241448C5006558F2 /* exefelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exefelUITests.swift; sourceTree = "<group>"; };
 		B9D82D97241448C5006558F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9D82DA424144C3D006558F2 /* StandingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsViewController.swift; sourceTree = "<group>"; };
-		B9D82DA624144DD4006558F2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B9D82DA82414523D006558F2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		B9D82DAA241453E5006558F2 /* TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		B9D82DAC24145481006558F2 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
@@ -178,7 +176,6 @@
 		B9D82DA324144A4C006558F2 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				B9D82DA624144DD4006558F2 /* Default-568h@2x.png */,
 				B9D82D7C241448C4006558F2 /* Assets.xcassets */,
 				B9D82D7E241448C4006558F2 /* LaunchScreen.storyboard */,
 			);
@@ -301,7 +298,6 @@
 			files = (
 				B9D82D80241448C4006558F2 /* LaunchScreen.storyboard in Resources */,
 				B9D82D7D241448C4006558F2 /* Assets.xcassets in Resources */,
-				B9D82DA724144DD4006558F2 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,7 +502,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = exefel/exefel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 24X8MVUSCN;
 				INFOPLIST_FILE = exefel/Info.plist;
@@ -529,7 +525,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = exefel/exefel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 24X8MVUSCN;
 				INFOPLIST_FILE = exefel/Info.plist;

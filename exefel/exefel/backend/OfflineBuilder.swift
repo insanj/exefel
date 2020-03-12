@@ -50,115 +50,115 @@ class OfflineBuilder: Builder {
   }
   
   func buildScheduleModel() -> StandingsViewController.GamesModel {
-    let sea = UIImage(named: "SEA")
-    let dc = UIImage(named: "DC")
-    let tb = UIImage(named: "TB")
-    let ny = UIImage(named: "NY")
-    let la = UIImage(named: "LA")
-    let hou = UIImage(named: "HOU")
-    let stl = UIImage(named: "STL")
-    let dal = UIImage(named: "DAL")
-
-    let weekOne = StandingsViewController.GamesSection(title: "Week One", cells: {
-      let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
-                                   leftBottom: GameCell.ModelSide(image: dc, title: "DC Defenders"),
-                                   rightTop: "19-31",
-                                   rightBottom: "ABC")
-      let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: la, title: "LA Wildcats"),
-                                   leftBottom: GameCell.ModelSide(image: hou, title: "HOU Roughnecks"),
-                                   rightTop: "17-37",
-                                   rightBottom: "FOX")
-      let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: tb, title: "TB Vipers"),
-                                   leftBottom: GameCell.ModelSide(image: ny, title: "NY Guardians"),
-                                   rightTop: "3-23",
-                                   rightBottom: "FOX")
-      let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: stl, title: "STL Battlehawks"),
-                                   leftBottom: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
-                                   rightTop: "15-9",
-                                   rightBottom: "ESPN")
-      return [satMorn, satEve, sunMorn, sunEve]
-    }())
-    
-    let weekTwo = StandingsViewController.GamesSection(title: "Week Two", cells: {
-     let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: ny, title: "NY Guardians"),
-                                  leftBottom: GameCell.ModelSide(image: dc, title: "DC Defenders"),
-                                  rightTop: "0-27",
-                                  rightBottom: "ABC")
-     let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: tb, title: "TB Vipers"),
-                                  leftBottom: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
-                                  rightTop: "9-17",
-                                  rightBottom: "FOX")
-     let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
-                                  leftBottom: GameCell.ModelSide(image: la, title: "LA Wildcats"),
-                                  rightTop: "25-18",
-                                  rightBottom: "ABC")
-     let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
-                                  leftBottom: GameCell.ModelSide(image: dc, title: "DC Defenders"),
-                                  rightTop: "24-28",
-                                  rightBottom: "FS1")
-     return [satMorn, satEve, sunMorn, sunEve]
-    }())
-    
-    let weekThree = StandingsViewController.GamesSection(title: "Week Three", cells: {
-     let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: hou, title: "HOU Roughnecks"),
-                                  leftBottom: GameCell.ModelSide(image: tb, title: "TB Vipers"),
-                                  rightTop: "34-27",
-                                  rightBottom: "ABC")
-     let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
-                                  leftBottom: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
-                                  rightTop: "24-12",
-                                  rightBottom: "FOX")
-     let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: ny, title: "NY Guardians"),
-                                  leftBottom: GameCell.ModelSide(image: stl, title: "STL Battlehawks"),
-                                  rightTop: "9-29",
-                                  rightBottom: "ESPN")
-     let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: dc, title: "DC Defenders"),
-                                  leftBottom: GameCell.ModelSide(image: la, title: "LA Wildcats"),
-                                  rightTop: "9-39",
-                                  rightBottom: "FS1")
-     return [satMorn, satEve, sunMorn, sunEve]
-    }())
-    
-    let weekFour = StandingsViewController.GamesSection(title: "Week Four", cells: {
-     let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: la, title: "LA Wildcats"),
-                                  leftBottom: GameCell.ModelSide(image: ny, title: "NY Guardians"),
-                                  rightTop: "14-17",
-                                  rightBottom: "ABC")
-     let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
-                                  leftBottom: GameCell.ModelSide(image: stl, title: "STL Battlehawks"),
-                                  rightTop: "16-23",
-                                  rightBottom: "FOX")
-     let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: hou, title: "HOU Roughnecks"),
-                                  leftBottom: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
-                                  rightTop: "27-20",
-                                  rightBottom: "FS1")
-     let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: dc, title: "DC Defenders"),
-                                  leftBottom: GameCell.ModelSide(image: tb, title: "TB Vipers"),
-                                  rightTop: "0-25",
-                                  rightBottom: "ESPN2")
-     return [satMorn, satEve, sunMorn, sunEve]
-    }())
-    
-    let weekFive = StandingsViewController.GamesSection(title: "Week Five", cells: {
-     let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
-                                  leftBottom: GameCell.ModelSide(image: hou, title: "HOU Roughnecks"),
-                                  rightTop: "23-32",
-                                  rightBottom: "ABC")
-     let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: ny, title: "NY Guardians"),
-                                  leftBottom: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
-                                  rightTop: "30-12",
-                                  rightBottom: "FOX")
-     let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: stl, title: "STL Battlehawks"),
-                                  leftBottom: GameCell.ModelSide(image: dc, title: "DC Defenders"),
-                                  rightTop: "3pm",
-                                  rightBottom: "FS1")
-     let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: tb, title: "TB Vipers"),
-                                  leftBottom: GameCell.ModelSide(image: la, title: "LA Wildcats"),
-                                  rightTop: "9pm",
-                                  rightBottom: "ESPN")
-     return [satMorn, satEve, sunMorn, sunEve]
-    }())
-    
+//    let sea = UIImage(named: "SEA")
+//    let dc = UIImage(named: "DC")
+//    let tb = UIImage(named: "TB")
+//    let ny = UIImage(named: "NY")
+//    let la = UIImage(named: "LA")
+//    let hou = UIImage(named: "HOU")
+//    let stl = UIImage(named: "STL")
+//    let dal = UIImage(named: "DAL")
+//
+//    let weekOne = StandingsViewController.GamesSection(title: "Week One", cells: {
+//      let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
+//                                   leftBottom: GameCell.ModelSide(image: dc, title: "DC Defenders"),
+//                                   rightTop: "19-31",
+//                                   rightBottom: "ABC")
+//      let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: la, title: "LA Wildcats"),
+//                                   leftBottom: GameCell.ModelSide(image: hou, title: "HOU Roughnecks"),
+//                                   rightTop: "17-37",
+//                                   rightBottom: "FOX")
+//      let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: tb, title: "TB Vipers"),
+//                                   leftBottom: GameCell.ModelSide(image: ny, title: "NY Guardians"),
+//                                   rightTop: "3-23",
+//                                   rightBottom: "FOX")
+//      let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: stl, title: "STL Battlehawks"),
+//                                   leftBottom: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
+//                                   rightTop: "15-9",
+//                                   rightBottom: "ESPN")
+//      return [satMorn, satEve, sunMorn, sunEve]
+//    }())
+//
+//    let weekTwo = StandingsViewController.GamesSection(title: "Week Two", cells: {
+//     let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: ny, title: "NY Guardians"),
+//                                  leftBottom: GameCell.ModelSide(image: dc, title: "DC Defenders"),
+//                                  rightTop: "0-27",
+//                                  rightBottom: "ABC")
+//     let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: tb, title: "TB Vipers"),
+//                                  leftBottom: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
+//                                  rightTop: "9-17",
+//                                  rightBottom: "FOX")
+//     let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
+//                                  leftBottom: GameCell.ModelSide(image: la, title: "LA Wildcats"),
+//                                  rightTop: "25-18",
+//                                  rightBottom: "ABC")
+//     let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
+//                                  leftBottom: GameCell.ModelSide(image: dc, title: "DC Defenders"),
+//                                  rightTop: "24-28",
+//                                  rightBottom: "FS1")
+//     return [satMorn, satEve, sunMorn, sunEve]
+//    }())
+//
+//    let weekThree = StandingsViewController.GamesSection(title: "Week Three", cells: {
+//     let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: hou, title: "HOU Roughnecks"),
+//                                  leftBottom: GameCell.ModelSide(image: tb, title: "TB Vipers"),
+//                                  rightTop: "34-27",
+//                                  rightBottom: "ABC")
+//     let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
+//                                  leftBottom: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
+//                                  rightTop: "24-12",
+//                                  rightBottom: "FOX")
+//     let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: ny, title: "NY Guardians"),
+//                                  leftBottom: GameCell.ModelSide(image: stl, title: "STL Battlehawks"),
+//                                  rightTop: "9-29",
+//                                  rightBottom: "ESPN")
+//     let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: dc, title: "DC Defenders"),
+//                                  leftBottom: GameCell.ModelSide(image: la, title: "LA Wildcats"),
+//                                  rightTop: "9-39",
+//                                  rightBottom: "FS1")
+//     return [satMorn, satEve, sunMorn, sunEve]
+//    }())
+//
+//    let weekFour = StandingsViewController.GamesSection(title: "Week Four", cells: {
+//     let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: la, title: "LA Wildcats"),
+//                                  leftBottom: GameCell.ModelSide(image: ny, title: "NY Guardians"),
+//                                  rightTop: "14-17",
+//                                  rightBottom: "ABC")
+//     let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
+//                                  leftBottom: GameCell.ModelSide(image: stl, title: "STL Battlehawks"),
+//                                  rightTop: "16-23",
+//                                  rightBottom: "FOX")
+//     let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: hou, title: "HOU Roughnecks"),
+//                                  leftBottom: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
+//                                  rightTop: "27-20",
+//                                  rightBottom: "FS1")
+//     let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: dc, title: "DC Defenders"),
+//                                  leftBottom: GameCell.ModelSide(image: tb, title: "TB Vipers"),
+//                                  rightTop: "0-25",
+//                                  rightBottom: "ESPN2")
+//     return [satMorn, satEve, sunMorn, sunEve]
+//    }())
+//
+//    let weekFive = StandingsViewController.GamesSection(title: "Week Five", cells: {
+//     let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
+//                                  leftBottom: GameCell.ModelSide(image: hou, title: "HOU Roughnecks"),
+//                                  rightTop: "23-32",
+//                                  rightBottom: "ABC")
+//     let satEve = GameCell.Model(leftTop: GameCell.ModelSide(image: ny, title: "NY Guardians"),
+//                                  leftBottom: GameCell.ModelSide(image: dal, title: "DAL Renegades"),
+//                                  rightTop: "30-12",
+//                                  rightBottom: "FOX")
+//     let sunMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: stl, title: "STL Battlehawks"),
+//                                  leftBottom: GameCell.ModelSide(image: dc, title: "DC Defenders"),
+//                                  rightTop: "3pm",
+//                                  rightBottom: "FS1")
+//     let sunEve = GameCell.Model(leftTop: GameCell.ModelSide(image: tb, title: "TB Vipers"),
+//                                  leftBottom: GameCell.ModelSide(image: la, title: "LA Wildcats"),
+//                                  rightTop: "9pm",
+//                                  rightBottom: "ESPN")
+//     return [satMorn, satEve, sunMorn, sunEve]
+//    }())
+//
     /*
     let weekSix = GamesSection(title: "Week One", cells: {
      let satMorn = GameCell.Model(leftTop: GameCell.ModelSide(image: sea, title: "SEA Dragons"),
@@ -260,7 +260,7 @@ class OfflineBuilder: Builder {
      return [satMorn, satEve, sunMorn, sunEve]
     }())*/
     
-    return StandingsViewController.GamesModel(sections: [weekOne, weekTwo, weekThree, weekFour, weekFive])//, weekSix, weekSeven, weekEight, weekNine, weekTen])
+    return StandingsViewController.GamesModel(sections: [StandingsViewController.GamesSection(title: "Updating...", cells: [])]) //, weekSix, weekSeven, weekEight, weekNine, weekTen])
   }
   
 }
