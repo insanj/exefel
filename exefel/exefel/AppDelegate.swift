@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func application(_ application: UIApplication, willEncodeRestorableStateWith coder: NSCoder) {
-    coder.encode(rootViewController, forKey: "root")
+    coder.encode(rootViewController, forKey: "root") // trigger encoding, we don't actually need this "encoded"
   }
   
   static let stateRestorationVersionKey = "exefelVersion"
@@ -66,19 +66,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
   
-//  func application(_ application: UIApplication, shouldSaveSecureApplicationState coder: NSCoder) -> Bool {
-//    coder.encode(AppDelegate.stateRestorationVersionValue, forKey: AppDelegate.stateRestorationVersionKey)
-//    return true
-//  }
+  func application(_ application: UIApplication, shouldSaveSecureApplicationState coder: NSCoder) -> Bool {
+    coder.encode(AppDelegate.stateRestorationVersionValue, forKey: AppDelegate.stateRestorationVersionKey)
+    return true
+  }
       
   func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
     return AppDelegate.shouldRestore(coder)
   }
-//
-//  func application(_ application: UIApplication, shouldRestoreSecureApplicationState coder: NSCoder) -> Bool {
-//    return AppDelegate.shouldRestore(coder)
-//  }
+
+  func application(_ application: UIApplication, shouldRestoreSecureApplicationState coder: NSCoder) -> Bool {
+    return AppDelegate.shouldRestore(coder)
+  }
   
   func application(_ application: UIApplication, didDecodeRestorableStateWith coder: NSCoder) {
+    // print("")
   }
 }
+
+/* As always, testing State Restoration goes like this:
+
+ 1. Run using Xcode
+ 2. Press Home Button, encodeRestorableStateWithCoder should be called
+ 3. Stop using Xcode
+ 4. Press Home Button for App Switcher and Force Quit the app
+ 5. Run using Xcode
+
+ */
