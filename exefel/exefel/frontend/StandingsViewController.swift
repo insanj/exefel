@@ -9,6 +9,10 @@
 import UIKit
 
 class StandingsViewController: TeamsViewController {
+//  static func viewController(withRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
+//    return StandingsViewController(coder: coder)
+//  }
+  
   struct GamesModel {
     let sections: [GamesSection]
   }
@@ -18,6 +22,8 @@ class StandingsViewController: TeamsViewController {
     let cells: [GameCell.Model]
   }
   
+  static let restorationIdentifier = String(describing: StandingsViewController.self) + "RestorationIdentifier"
+
   internal var builder = OfflineBuilder()
   internal var backingModel: TeamsViewController.Model // StandingsViewController.buildDivisionsModel()
   internal var backingGamesModel: StandingsViewController.GamesModel //StandingsViewController.buildScheduleModel()
@@ -56,12 +62,46 @@ class StandingsViewController: TeamsViewController {
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    backingModel = builder.buildDivisionsModel()
+    backingGamesModel = builder.buildScheduleModel()
+    super.init(model: backingModel)
+    decodeRestorableState(with: coder)
+  }
+  
+  class RestorableStateKey {
+    static let selectedSegmentIndex = "selectedSegmentIndex"
+  }
+  
+  internal var decodedSegementedIndex: Int? {
+    didSet {
+      if let d = decodedSegementedIndex {
+        self.searchController?.searchBar.selectedScopeButtonIndex = d
+      }
+    }
+  }
+  
+  override func encodeRestorableState(with coder: NSCoder) {
+    super.encodeRestorableState(with: coder)
+    
+    if let encodable = self.searchController?.searchBar.selectedScopeButtonIndex {
+      coder.encode(encodable, forKey:RestorableStateKey.selectedSegmentIndex)
+    }
+  }
+  
+  override func decodeRestorableState(with coder: NSCoder) {
+    decodedSegementedIndex = coder.decodeInteger(forKey: RestorableStateKey.selectedSegmentIndex)
+    
+    super.decodeRestorableState(with: coder)
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    restorationIdentifier = String(describing: StandingsViewController.self) + "RestorationIdentifier"
+    //restorationClass = StandingsViewController.self
+    
+    reloadBackend()
+        
     tableView.allowsSelection = false
     tableView.keyboardDismissMode = .onDrag
     tableView.register(GameCell.self, forCellReuseIdentifier: GameCell.reuseIdentifier)
@@ -74,11 +114,13 @@ class StandingsViewController: TeamsViewController {
     // search.delegate = self
     search.searchBar.placeholder = "Updating 🏈 exefel..."
     search.searchBar.scopeButtonTitles = ["Divisions", "Standings", "Schedule"]
-    search.searchBar.selectedScopeButtonIndex = 0
     search.searchBar.showsScopeBar = true
     search.searchBar.scopeBarBackgroundImage = UIImage.imageWithColor(UIColor.clear)
     search.searchBar.delegate = self
     search.searchBar.showsCancelButton = false
+    search.searchBar.selectedScopeButtonIndex = decodedSegementedIndex ?? 0
+
+    //if ![0, 1, 2].contains(search.searchBar.selectedScopeButtonIndex) {
     
 //    if let scopeBar = search.searchBar.subviews.first?.subviews.first?.subviews.first(where: { $0 is UISegmentedControl }) as? UISegmentedControl { // lol
 //      scopeBar.addTarget(self, action: #selector(scopeBarTapped(_:)), for: .allTouchEvents)
@@ -92,6 +134,7 @@ class StandingsViewController: TeamsViewController {
     searchController = search
     
     self.becomeFirstResponder()
+    // search.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "bar button more"), style: .plain, target: self, action: #selector(moreBarButtonItemTapped))
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -111,6 +154,20 @@ class StandingsViewController: TeamsViewController {
     
     self.searchController?.searchBar.placeholder = "Updating 🏈 exefel..."
     reloadBackend()
+  }
+  
+  @objc func moreBarButtonItemTapped() {
+    let versionString = "v\(Bundle.main.version ?? "??")-\(Bundle.main.build ?? "??") from \(DateFormatter.localizedString(from: Bundle.main.buildDate ?? Date(), dateStyle: .short, timeStyle: .short))"
+    let alert = UIAlertController(title: "🏈", message: versionString, preferredStyle: .actionSheet)
+    alert.addAction(UIAlertAction(title: "About", style: .default, handler: { (_) in
+      
+    }))
+    alert.addAction(UIAlertAction(title: "Refresh...", style: .default, handler: { (_) in
+      self.searchController?.searchBar.placeholder = "Updating 🏈 exefel..."
+      self.reloadBackend()
+    }))
+    alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+    present(alert, animated: true, completion: nil)
   }
   
   override func reloadBackend() {

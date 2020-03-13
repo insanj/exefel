@@ -80,7 +80,6 @@ class TeamsViewController: UITableViewController {
 //    reloadRefreshControl(refresh)
 //    tableView.refreshControl = refresh
 //
-    reloadBackend()
     themeify()
   }
   

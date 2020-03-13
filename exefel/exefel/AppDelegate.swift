@@ -14,17 +14,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   var rootViewController: UINavigationController?
   
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    
+  func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
-    let standingsViewController = StandingsViewController() // TODO recreate based on persistent stack?
-    let navigationController = UINavigationController(rootViewController: standingsViewController)
-    // navigationController.navigationBar.prefersLargeTitles = true
-    window?.rootViewController = navigationController
+    return true
+  }
+  
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    if rootViewController == nil { // if unable to restore, make a new one
+      rootViewController = NavigationController()
+    }
+    window?.rootViewController = rootViewController
     window?.makeKeyAndVisible()
+    return true
+  }
+  
+  func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
+    let identifier = identifierComponents.last
+    
+    if identifier == NavigationController.restorationIdentifier {
+      rootViewController = NavigationController(coder: coder)
+      return rootViewController
+    }
+    
+    else if identifier == StandingsViewController.restorationIdentifier {
+      let standingsViewController = StandingsViewController(coder: coder)
+      return standingsViewController
+    }
+    
+    return nil
+  }
+
+  func application(_ application: UIApplication, willEncodeRestorableStateWith coder: NSCoder) {
+    coder.encode(rootViewController, forKey: "root")
+  }
+  
+  static let stateRestorationVersionKey = "exefelVersion"
+  static var stateRestorationVersionValue: String {
+    return "\(Bundle.main.version ?? "?")-\(Bundle.main.build ?? "?")"
+  }
+  
+  static func shouldRestore(_ coder: NSCoder) -> Bool {
+    guard let version = coder.decodeObject(forKey: AppDelegate.stateRestorationVersionKey) as? String, version == AppDelegate.stateRestorationVersionValue else {
+      return false
+    }
     
     return true
   }
 
+  func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+    coder.encode(AppDelegate.stateRestorationVersionValue, forKey: AppDelegate.stateRestorationVersionKey)
+    return true
+  }
+  
+//  func application(_ application: UIApplication, shouldSaveSecureApplicationState coder: NSCoder) -> Bool {
+//    coder.encode(AppDelegate.stateRestorationVersionValue, forKey: AppDelegate.stateRestorationVersionKey)
+//    return true
+//  }
+      
+  func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+    return AppDelegate.shouldRestore(coder)
+  }
+//
+//  func application(_ application: UIApplication, shouldRestoreSecureApplicationState coder: NSCoder) -> Bool {
+//    return AppDelegate.shouldRestore(coder)
+//  }
+  
+  func application(_ application: UIApplication, didDecodeRestorableStateWith coder: NSCoder) {
+  }
 }
-

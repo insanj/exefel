@@ -20,7 +20,6 @@ class OfflineBuilder: Builder {
       return [battlehawks, defenders, guardians, vipers]
     }())
     
-    // "v\(Bundle.main.version ?? "??")-\(Bundle.main.build ?? "??") from \(DateFormatter.localizedString(from: Bundle.main.buildDate ?? Date(), dateStyle: .short, timeStyle: .short))"
     let xflWest = TeamsViewController.ModelSection(title: "XFL West", footer: nil, items: {
       let roughnecks = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "HOU")?.resize(newWidth: 50.0), top: "Houston", middle: "Roughnecks", bottom: "5-0, 1st XFL West"), indicator: .disclosureIndicator, action: nil)
       let renegades = TeamsViewController.ModelItem(cell: TeamCell.Model(image: UIImage(named: "DAL")?.resize(newWidth: 50.0), top: "Dallas", middle: "Renegades", bottom: "2-3, 2nd XFL West"), indicator: .disclosureIndicator, action: nil)

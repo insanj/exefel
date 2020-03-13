@@ -15,6 +15,7 @@
 		B92BA92E241881CF0021C1D0 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA92D241881CF0021C1D0 /* Builder.swift */; };
 		B92BA930241882A10021C1D0 /* ResultBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA92F241882A10021C1D0 /* ResultBuilder.swift */; };
 		B92BA932241882EC0021C1D0 /* OfflineBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BA931241882EC0021C1D0 /* OfflineBuilder.swift */; };
+		B94C2FC6241AF9600040B71E /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C2FC5241AF9600040B71E /* StatusCell.swift */; };
 		B9D82D74241448BE006558F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D73241448BE006558F2 /* AppDelegate.swift */; };
 		B9D82D78241448BE006558F2 /* TeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D77241448BE006558F2 /* TeamsViewController.swift */; };
 		B9D82D7D241448C4006558F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9D82D7C241448C4006558F2 /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 		B92BA92F241882A10021C1D0 /* ResultBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultBuilder.swift; sourceTree = "<group>"; };
 		B92BA931241882EC0021C1D0 /* OfflineBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBuilder.swift; sourceTree = "<group>"; };
 		B932177D24188B9A005D32C2 /* exefel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = exefel.entitlements; sourceTree = "<group>"; };
+		B94C2FC5241AF9600040B71E /* StatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
 		B9D82D70241448BE006558F2 /* exefel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exefel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9D82D73241448BE006558F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9D82D77241448BE006558F2 /* TeamsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsViewController.swift; sourceTree = "<group>"; };
@@ -109,15 +111,17 @@
 			path = backend;
 			sourceTree = "<group>";
 		};
-		B92BA9262414F1660021C1D0 /* teams */ = {
+		B92BA9262414F1660021C1D0 /* frontend */ = {
 			isa = PBXGroup;
 			children = (
+				B92BA9272414F8D70021C1D0 /* NavigationController.swift */,
 				B9D82DA424144C3D006558F2 /* StandingsViewController.swift */,
 				B9D82D77241448BE006558F2 /* TeamsViewController.swift */,
 				B9D82DAA241453E5006558F2 /* TeamCell.swift */,
 				B92BA92924150ADE0021C1D0 /* GameCell.swift */,
+				B94C2FC5241AF9600040B71E /* StatusCell.swift */,
 			);
-			path = teams;
+			path = frontend;
 			sourceTree = "<group>";
 		};
 		B9D82D67241448BE006558F2 = {
@@ -145,12 +149,11 @@
 			children = (
 				B932177D24188B9A005D32C2 /* exefel.entitlements */,
 				B9D82D81241448C4006558F2 /* Info.plist */,
+				B9D82D73241448BE006558F2 /* AppDelegate.swift */,
 				B9D82DA324144A4C006558F2 /* assets */,
 				B9D82DAE24145660006558F2 /* extensions */,
 				B92BA923241464C90021C1D0 /* backend */,
-				B9D82D73241448BE006558F2 /* AppDelegate.swift */,
-				B92BA9272414F8D70021C1D0 /* NavigationController.swift */,
-				B92BA9262414F1660021C1D0 /* teams */,
+				B92BA9262414F1660021C1D0 /* frontend */,
 			);
 			path = exefel;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				B92BA92024145A050021C1D0 /* Scraper.swift in Sources */,
 				B9D82D78241448BE006558F2 /* TeamsViewController.swift in Sources */,
 				B92BA92E241881CF0021C1D0 /* Builder.swift in Sources */,
+				B94C2FC6241AF9600040B71E /* StatusCell.swift in Sources */,
 				B92BA92A24150ADE0021C1D0 /* GameCell.swift in Sources */,
 				B9D82DAD24145481006558F2 /* Bundle+Extension.swift in Sources */,
 				B92BA932241882EC0021C1D0 /* OfflineBuilder.swift in Sources */,
@@ -502,7 +506,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = exefel/exefel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 24X8MVUSCN;
 				INFOPLIST_FILE = exefel/Info.plist;
@@ -525,7 +529,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = exefel/exefel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 24X8MVUSCN;
 				INFOPLIST_FILE = exefel/Info.plist;
