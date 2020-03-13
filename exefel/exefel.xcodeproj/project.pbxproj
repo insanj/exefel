@@ -26,6 +26,8 @@
 		B9D82DA92414523D006558F2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DA82414523D006558F2 /* UIImage+Extension.swift */; };
 		B9D82DAB241453E5006558F2 /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DAA241453E5006558F2 /* TeamCell.swift */; };
 		B9D82DAD24145481006558F2 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82DAC24145481006558F2 /* Bundle+Extension.swift */; };
+		B9E1C62A241B163800A2CEA9 /* WeekFiveResultBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E1C629241B163800A2CEA9 /* WeekFiveResultBuilder.swift */; };
+		B9E1C62C241B178700A2CEA9 /* seed_2020_season_1_week_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B9E1C62B241B178700A2CEA9 /* seed_2020_season_1_week_5.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		B9D82DA82414523D006558F2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		B9D82DAA241453E5006558F2 /* TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		B9D82DAC24145481006558F2 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
+		B9E1C629241B163800A2CEA9 /* WeekFiveResultBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekFiveResultBuilder.swift; sourceTree = "<group>"; };
+		B9E1C62B241B178700A2CEA9 /* seed_2020_season_1_week_5.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = seed_2020_season_1_week_5.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,7 @@
 				B92BA92D241881CF0021C1D0 /* Builder.swift */,
 				B92BA931241882EC0021C1D0 /* OfflineBuilder.swift */,
 				B92BA92F241882A10021C1D0 /* ResultBuilder.swift */,
+				B9E1C628241B162E00A2CEA9 /* seeds */,
 			);
 			path = backend;
 			sourceTree = "<group>";
@@ -181,6 +186,7 @@
 			children = (
 				B9D82D7C241448C4006558F2 /* Assets.xcassets */,
 				B9D82D7E241448C4006558F2 /* LaunchScreen.storyboard */,
+				B9E1C62B241B178700A2CEA9 /* seed_2020_season_1_week_5.json */,
 			);
 			path = assets;
 			sourceTree = "<group>";
@@ -193,6 +199,14 @@
 				B92BA92124145B780021C1D0 /* String+Extension.swift */,
 			);
 			path = extensions;
+			sourceTree = "<group>";
+		};
+		B9E1C628241B162E00A2CEA9 /* seeds */ = {
+			isa = PBXGroup;
+			children = (
+				B9E1C629241B163800A2CEA9 /* WeekFiveResultBuilder.swift */,
+			);
+			path = seeds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9D82D80241448C4006558F2 /* LaunchScreen.storyboard in Resources */,
+				B9E1C62C241B178700A2CEA9 /* seed_2020_season_1_week_5.json in Resources */,
 				B9D82D7D241448C4006558F2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,6 +342,7 @@
 			files = (
 				B92BA930241882A10021C1D0 /* ResultBuilder.swift in Sources */,
 				B92BA92224145B780021C1D0 /* String+Extension.swift in Sources */,
+				B9E1C62A241B163800A2CEA9 /* WeekFiveResultBuilder.swift in Sources */,
 				B92BA92024145A050021C1D0 /* Scraper.swift in Sources */,
 				B9D82D78241448BE006558F2 /* TeamsViewController.swift in Sources */,
 				B92BA92E241881CF0021C1D0 /* Builder.swift in Sources */,

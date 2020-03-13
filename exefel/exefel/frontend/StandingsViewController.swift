@@ -24,7 +24,7 @@ class StandingsViewController: TeamsViewController {
   
   static let restorationIdentifier = String(describing: StandingsViewController.self) + "RestorationIdentifier"
 
-  internal var builder = OfflineBuilder()
+  internal var builder: Builder = WeekFiveResultBuilder()
   internal var backingModel: TeamsViewController.Model
   internal var backingGamesModel: StandingsViewController.GamesModel
   
