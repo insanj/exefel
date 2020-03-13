@@ -25,11 +25,16 @@ class StandingsViewController: TeamsViewController {
   static let restorationIdentifier = String(describing: StandingsViewController.self) + "RestorationIdentifier"
 
   internal var builder = OfflineBuilder()
-  internal var backingModel: TeamsViewController.Model // StandingsViewController.buildDivisionsModel()
-  internal var backingGamesModel: StandingsViewController.GamesModel //StandingsViewController.buildScheduleModel()
+  internal var backingModel: TeamsViewController.Model
+  internal var backingGamesModel: StandingsViewController.GamesModel
+  
   internal var gamesModel: GamesModel? {
     didSet {
       tableView.reloadData()
+      
+      guard searchController?.searchBar.isFirstResponder != true else {
+        return // do not scroll to top if we are currently searching
+      }
       
       let mostUpToDateWeekIndexPath: IndexPath? = {
         let tableViewIndexForMostRecentSec = gamesModel?.sections.firstIndex { (s) -> Bool in
@@ -91,6 +96,23 @@ class StandingsViewController: TeamsViewController {
   override func decodeRestorableState(with coder: NSCoder) {
     decodedSegementedIndex = coder.decodeInteger(forKey: RestorableStateKey.selectedSegmentIndex)
     
+    if decodedSegementedIndex != searchController?.searchBar.selectedScopeButtonIndex {
+      if decodedSegementedIndex == 0 {
+        backingModel = builder.buildDivisionsModel()
+        model = backingModel
+      }
+      
+      else if decodedSegementedIndex == 1 {
+        backingModel = builder.buildStandingsModel()
+        model = backingModel
+      }
+      
+      else if decodedSegementedIndex == 2 {
+        backingGamesModel = builder.buildScheduleModel()
+        gamesModel = backingGamesModel
+      }
+    }
+    
     super.decodeRestorableState(with: coder)
   }
   
@@ -103,7 +125,7 @@ class StandingsViewController: TeamsViewController {
     reloadBackend()
         
     tableView.allowsSelection = false
-    tableView.keyboardDismissMode = .onDrag
+    tableView.keyboardDismissMode = .interactive
     tableView.register(GameCell.self, forCellReuseIdentifier: GameCell.reuseIdentifier)
     
     // setup search bar

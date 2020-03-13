@@ -50,6 +50,12 @@ class TeamsViewController: UITableViewController {
     didSet {
       title = model?.title
       tableView.reloadData()
+      
+      guard let firstSection = model?.sections.firstIndex(where: { $0.items.count > 0 }), firstSection < model?.sections.count ?? 0 else {
+        return
+      }
+      
+      tableView.scrollToRow(at: IndexPath(row: 0, section: firstSection), at: .top, animated: false)
     }
   }
   
@@ -80,13 +86,13 @@ class TeamsViewController: UITableViewController {
 //    reloadRefreshControl(refresh)
 //    tableView.refreshControl = refresh
 //
-    themeify()
+    //themeify()
   }
-  
-  func themeify() {
-    // view.backgroundColor = UIColor.secondarySystemBackground
-    tableView.reloadData()
-  }
+//
+//  func themeify() {
+//    // view.backgroundColor = UIColor.secondarySystemBackground
+//    tableView.reloadData()
+//  }
   
   func reloadBackend() {
     // no - op
